@@ -15,9 +15,12 @@
     <link rel="stylesheet" type="text/css" href="{{asset('backend_assets/assets/css/vendors/chartist.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('backend_assets/assets/css/vendors/date-picker.css')}}">
     <!-- Plugins css Ends-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="{{asset('backend_assets/assets/css/vendors/bootstrap.css')}}">
     <!-- App css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
+    
     <link rel="stylesheet" type="text/css" href="{{asset('backend_assets/assets/css/style.css')}}">
     <link id="color" rel="stylesheet" href="{{asset('backend_assets/assets/css/color-1.css')}}" media="screen">
     <!-- Responsive css-->

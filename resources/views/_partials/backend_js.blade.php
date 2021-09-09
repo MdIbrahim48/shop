@@ -26,9 +26,20 @@
     <script src="{{asset('backend_assets/assets/js/typeahead/handlebars.js')}}"></script>
     <script src="{{asset('backend_assets/assets/js/typeahead/typeahead.bundle.js')}}"></script>
     <script src="{{asset('backend_assets/assets/js/typeahead/typeahead.custom.js')}}"></script>
-    <script src="{{asset('backend_assets/assets/js/typeahead-search/handlebars.js')}}"></script>
+    <script src="{{asset('backend_assets/assets/js/typeahead-search/handlebars.js')}}"></script> 
     <script src="{{asset('backend_assets/assets/js/typeahead-search/typeahead-custom.js')}}"></script>
+    
+    <script src="{{asset('backend_assets/assets/js/icons/icons-notify.js')}}"></script>
+    <script src="{{asset('backend_assets/assets/js/icons/icon-clipart.js')}}"></script>
+    <script src="{{asset('backend_assets/assets/js/tooltip-init.js')}}"></script>
     <!-- Plugins JS Ends-->
+    <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap4.min.js"></script>
     <!-- Theme js-->
     <script src="{{asset('backend_assets/assets/js/script.js')}}"></script>
-    <script src="{{asset('backend_assets/assets/js/theme-customizer/customizer.js')}}"></script>
+    {{-- <script src="{{asset('backend_assets/assets/js/theme-customizer/customizer.js')}}"></script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
