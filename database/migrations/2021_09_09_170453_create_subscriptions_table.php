@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSocialIconsTable extends Migration
+class CreateSubscriptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateSocialIconsTable extends Migration
      */
     public function up()
     {
-        Schema::create('social_icons', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('icon');
-            $table->string('url');
-            $table->boolean('status')->default(1);
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateSocialIconsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('social_icons');
+        Schema::dropIfExists('subscriptions');
     }
 }

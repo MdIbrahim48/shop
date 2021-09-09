@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SocialIconController;
+use App\Http\Controllers\Frontend\WebsiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,9 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('backend.dashboard');
-});
-Route::get('/aa',function(){
-    return view('frontend.shop');
 });
 // Category
 Route::resource('categories',CategoryController::class);
@@ -47,4 +45,7 @@ Route::resource('settings',SettingController::class);
 
 // Social Icon
 Route::resource('socialIcon',SocialIconController::class);
+Route::get('/social-icon/{id}',[SocialIconController::class,'status'])->name('socialicon.status');
 
+// frontend
+Route::get('/website',[WebsiteController::class,'index']);

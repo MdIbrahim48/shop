@@ -30,6 +30,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Social Icon Name</th>
+              <th scope="col">Social Icon Url</th>
               <th scope="col">Social Icon</th>
               <th scope="col">Slug</th>
               <th scope="col">Action</th>
@@ -40,14 +41,15 @@
               <tr>
                 <th scope="row">{{$loop->iteration}}</th>
                 <td>{{$socialIcon->name}}</td>
+                <td>{{$socialIcon->url}}</td>
                 <td>{{$socialIcon->icon}}</td>
-                {{-- <td>
+                <td>
                   @if ($socialIcon->status==0)
-                  <a href="{{route('socialIcon.status', $socialIcon->id)}}" class="btn btn-info">Active</a>
+                  <a href="{{route('socialicon.status', $socialIcon->id)}}" class="btn btn-info">Active</a>
                   @else
-                  <a href="{{route('socialIcon.status', $socialIcon->id)}}" class="btn btn-warning">InActive</a>
+                  <a href="{{route('socialicon.status', $socialIcon->id)}}" class="btn btn-warning">InActive</a>
                   @endif
-                </td> --}}
+                </td>
                 <td style="display: inline-flex">
                     <form action="{{route('socialIcon.destroy',['socialIcon'=>$socialIcon->id])}}"  method="post">
                         @csrf

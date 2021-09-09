@@ -12,6 +12,24 @@ class SocialIconController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function status($id)
+    {
+        $socialicicon = SocialIcon::find($id);
+        if ($socialicicon) {
+            if ($socialicicon->status == 0) {
+                $socialicicon->status = 1;
+            } else {
+                $socialicicon->status = 0;
+            }
+            $socialicicon->save();
+            Session()->flash('alert-success', 'Socialicicon Update successfully');
+            return back();
+        } else {
+            return abort(404);
+        }
+    }
+
+
     public function index()
     {
         $socialIcons = SocialIcon::all();
@@ -38,10 +56,12 @@ class SocialIconController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'url' => 'required',
             'icon' => 'required',
         ]);
         $socialicicon = new SocialIcon;
         $socialicicon->name = $request->name;
+        $socialicicon->url = $request->url;
         $socialicicon->icon = $request->icon;
         $socialicicon->save();
         Session()->flash('alert-success','Social Icon Added Successfully');
@@ -85,6 +105,7 @@ class SocialIconController extends Controller
     {
         $socialicicon = SocialIcon::findOrFail($id);
         $socialicicon->name = $request->name;
+        $socialicicon->url = $request->url;
         $socialicicon->icon = $request->icon;
         $socialicicon->update();
         Session()->flash('alert-success','Social Icon Update Successfully');
