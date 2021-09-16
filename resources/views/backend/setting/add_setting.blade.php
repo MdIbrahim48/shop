@@ -88,7 +88,6 @@
                   <div class="col-md-6">
                     <label class="form-label" for="icon">Setting Icon</label>
                     <input class="form-control @error('icon') is-invalid @enderror" name="icon" value="{{old('icon')}}" id="icon" type="file" placeholder="Enter Setting Icon" required="">
-                    
                     <td>
                       @if ($findData->icon)
                       <img width="100" src='{{asset("images/setting/icon/".$findData->icon)}}' alt="{{$findData->icon}}">

@@ -32,6 +32,7 @@
     <script src="{{asset('backend_assets/assets/js/icons/icons-notify.js')}}"></script>
     <script src="{{asset('backend_assets/assets/js/icons/icon-clipart.js')}}"></script>
     <script src="{{asset('backend_assets/assets/js/tooltip-init.js')}}"></script>
+   
     <!-- Plugins JS Ends-->
     <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap4.min.js"></script>
@@ -43,3 +44,4 @@
             $('#example').DataTable();
         } );
     </script>
+

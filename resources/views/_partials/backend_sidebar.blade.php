@@ -19,7 +19,7 @@
               </div>
             </li>
             <li class="sidebar-list">
-              <label class="badge badge-success">2</label><a class="sidebar-link sidebar-title" href="#"><i data-feather="home"></i><span class="lan-3">Dashboard              </span></a>
+              <label class="badge badge-success">2</label><a class="sidebar-link sidebar-title" href="{{route('dashboard')}}"><i data-feather="home"></i><span class="lan-3">Dashboard              </span></a>
               <ul class="sidebar-submenu">
                 <li><a class="lan-4" href="index.html">Default</a></li>
                 <li><a class="lan-5" href="dashboard-02.html">Ecommerce</a></li>
@@ -64,6 +64,12 @@
               <ul class="sidebar-submenu">
                 <li><a href="{{route('socialIcon.index')}}">SocialIcon List</a></li>
                 <li><a href="{{route('socialIcon.create')}}">Add SocialIcon</a></li>
+              </ul>
+            </li>
+            <li class="sidebar-list">
+              <label class="badge badge-danger">New</label><a class="sidebar-link sidebar-title" href="#"><i data-feather="box"></i><span>SubsCription</span></a>
+              <ul class="sidebar-submenu">
+                <li><a href="{{route('subscribe.index')}}">Subscribe List</a></li>
               </ul>
               <br><br>
             </li>

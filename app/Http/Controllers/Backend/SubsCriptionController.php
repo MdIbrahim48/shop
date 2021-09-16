@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Subscription;
+use App\Models\Notification;
 class SubsCriptionController extends Controller
 {
     /**
@@ -14,7 +15,10 @@ class SubsCriptionController extends Controller
      */
     public function index()
     {
-        //
+        $subscribes = Subscription::all();
+        return view('backend.subscribe.subscribe',[
+            'subscribes'=>$subscribes
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class SubsCriptionController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**
@@ -35,7 +39,20 @@ class SubsCriptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required|unique:subscriptions'
+        ]);
+        $subscribe = new Subscription;
+        $subscribe->email = $request->email;
+        $subscribe->save();
+
+        $notification = new Notification;
+        $notification->message = "$subscribe->email is new notification";
+        $notification->save();
+
+        Session()->flash('message','Subscribe Successfully');
+        return back();
+
     }
 
     /**

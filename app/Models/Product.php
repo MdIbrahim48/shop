@@ -10,6 +10,8 @@ class Product extends Model
     use HasFactory;
     protected $fillable = [
         'name',
+        'price',
+        'offer_price',
         'product_id',
         'category_id',
         'subcategory_id',
@@ -23,6 +25,11 @@ class Product extends Model
         'featured_image',
         'quantity',
         'size',
+        'color',
+        'waist',
+        'length',
+        'chest',
+        'fabric',
         'abalivality',
         'video_link',
         'camera',
@@ -39,6 +46,9 @@ class Product extends Model
     }
     public function subCategory(){
         return $this->belongsTo(SubCategory::class);
+    }
+     public function cart(){
+        return $this->belongsTo(Cart::class);
     }
 
 }

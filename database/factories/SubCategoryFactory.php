@@ -21,8 +21,6 @@ class SubCategoryFactory extends Factory
      */
     public function definition()
     {
-        return [
-            //
-        ];
+        
     }
 }

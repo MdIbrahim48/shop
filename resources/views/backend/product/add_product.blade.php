@@ -37,6 +37,20 @@
                     @enderror
                   </div>
                   <div class="col-md-6">
+                    <label class="form-label" for="price">Product Price</label>
+                    <input class="form-control @error('price') is-invalid @enderror" name="price" value="{{old('price')}}" id="price" type="text" placeholder="Enter Product price" required="">
+                    @error('price')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="offer_price">Product Offer Price</label>
+                    <input class="form-control @error('offer_price') is-invalid @enderror" name="offer_price" value="{{old('offer_price')}}" id="offer_price" type="text" placeholder="Enter Product Offer Price" required="">
+                    @error('offer_price')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
                     <label class="form-label" for="size">Size</label>
                     {{-- <input class="form-control @error('size') is-invalid @enderror" name="size" value="{{old('size')}}" id="size" type="text" placeholder="Enter Size" required=""> --}}
                     <select name="size" id="" class="form-control  @error('size') is-invalid @enderror">
@@ -102,8 +116,43 @@
                   </div>
                   <div class="col-md-6">
                     <label class="form-label" for="featured_image">Featured Image</label>
-                    <input  multiple class="form-control @error('featured_image') is-invalid @enderror" name="featured_image"  id="featured_image" type="file"  required="">
+                    <input multiple class="form-control @error('featured_image') is-invalid @enderror" name="featured_image[]"  id="featured_image" type="file"  required="">
                     @error('featured_image')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="color">Color</label>
+                    <input class="form-control @error('color') is-invalid @enderror" name="color" value="{{old('color')}}" id="color" type="text" placeholder="Enter color" required="">
+                    @error('color')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="waist">Waist</label>
+                    <input class="form-control @error('waist') is-invalid @enderror" name="waist" value="{{old('waist')}}" id="waist" type="text" placeholder="Enter waist" required="">
+                    @error('waist')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="length">Length</label>
+                    <input class="form-control @error('length') is-invalid @enderror" name="length" value="{{old('length')}}" id="length" type="text" placeholder="Enter length" required="">
+                    @error('length')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="chest">Chest</label>
+                    <input class="form-control @error('chest') is-invalid @enderror" name="chest" value="{{old('chest')}}" id="chest" type="text" placeholder="Enter chest" required="">
+                    @error('chest')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="fabric">Fabric</label>
+                    <input class="form-control @error('fabric') is-invalid @enderror" name="fabric" value="{{old('fabric')}}" id="fabric" type="text" placeholder="Enter fabric" required="">
+                    @error('fabric')
                         <div class="alert text-danger">{{$message}}</div>
                     @enderror
                   </div>
@@ -115,10 +164,14 @@
                     @enderror
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label" for="quantity">Abalivality</label>
-                    <input class="form-control @error('abalivality') is-invalid @enderror" name="abalivality" value="{{old('abalivality')}}" id="abalivality" placeholder="Enter Abalivality" type="text"  required="">
+                    <label class="form-label" for="abalivality">Abalivality</label>
+                    <select name="abalivality" id="abalivality" class="form-control  @error('abalivality') is-invalid @enderror">
+                      <option value>Select Abalivality</option>
+                      <option value="1">In Stock</option>
+                      <option value="0">Out Of Stock</option>
+                    </select>
                     @error('abalivality')
-                        <div class="alert text-danger">{{$message}}</div>
+                    <div class="alert text-danger">{{$message}}</div>
                     @enderror
                   </div>
                   <div class="col-md-6">

@@ -21,6 +21,7 @@
     <!-- App css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
     
+    
     <link rel="stylesheet" type="text/css" href="{{asset('backend_assets/assets/css/style.css')}}">
     <link id="color" rel="stylesheet" href="{{asset('backend_assets/assets/css/color-1.css')}}" media="screen">
     <!-- Responsive css-->

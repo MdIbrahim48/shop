@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use App\Models\SubCategory;
 class SubCategorySeeder extends Seeder
 {
     /**
@@ -13,6 +13,6 @@ class SubCategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        SubCategory::factory(50)->create();
     }
 }

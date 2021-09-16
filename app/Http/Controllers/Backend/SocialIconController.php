@@ -88,9 +88,9 @@ class SocialIconController extends Controller
      */
     public function edit($id)
     {
-        $socialicicon = SocialIcon::findOrFail($id);
+        $socialicon = SocialIcon::findOrFail($id);
         return view('backend.socialIcon.edit_socialicon',[
-            'socialicicon'=>$socialicicon
+            'socialicon'=>$socialicon
         ]);
     }
 
@@ -103,6 +103,11 @@ class SocialIconController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'url' => 'required',
+            'icon' => 'required',
+        ]);
         $socialicicon = SocialIcon::findOrFail($id);
         $socialicicon->name = $request->name;
         $socialicicon->url = $request->url;

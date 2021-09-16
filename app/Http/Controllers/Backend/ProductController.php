@@ -11,6 +11,7 @@ use App\Models\SubCategory;
 use Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+
 class ProductController extends Controller
 {
     /**
@@ -38,7 +39,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('backend.product.list_product',[
+        return view('backend.product.list_product', [
             'products' => $products
         ]);
     }
@@ -53,7 +54,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $subCategories = SubCategory::all();
         $brands = Brand::all();
-        return view('backend.product.add_product',[
+        return view('backend.product.add_product', [
             'categories' => $categories,
             'subCategories' => $subCategories,
             'brands' => $brands,
@@ -68,9 +69,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $request->validate([
-            'name' => 'required', 
+            'name' => 'required',
+            'price' => 'required',
             'category_id' => 'required',
             'subcategory_id' => 'required',
             'tag' => 'required',
@@ -84,6 +86,8 @@ class ProductController extends Controller
 
         $products = new Product;
         $products->name  =  $request->name;
+        $products->price  =  $request->price;
+        $products->offer_price  =  $request->offer_price;
         $products->slug  =  Str::slug($request->name);
         $products->product_id  = random_int(100000, 999999);
         $products->category_id  =  $request->category_id;
@@ -93,8 +97,7 @@ class ProductController extends Controller
         $products->description  =  $request->description;
         $products->short_description  =  $request->short_description;
         $products->tag  =  $request->tag;
-
-        if($request->hasFile('thumbnail')){
+        if ($request->hasFile('thumbnail')) {
             // if($request->validate([
             //     'thumbnail'=> 'max:512|image|dimensions:max_height=500,max_width:500',
             // ]));
@@ -102,28 +105,54 @@ class ProductController extends Controller
             $imagesFileName = $image->getClientOriginalName();
             $fileName = pathinfo($imagesFileName, PATHINFO_FILENAME);
             $extension = pathinfo($imagesFileName, PATHINFO_EXTENSION);
-            $originalName = $fileName .'.'.$extension;
+            $originalName = $fileName . '.' . $extension;
             $path = public_path('images/products/thumbnail/');
-            File::makeDirectory($path , $mode=0777,true,true);
-            Image::make($image)->save($path.$originalName);
+            File::makeDirectory($path, $mode = 0777, true, true);
+            if (File::exists($path . $originalName)) {
+                $originalName =   random_int(10, 99) . $originalName;
+            }
+            Image::make($image)->save($path . $originalName);
             $products->thumbnail = $originalName;
         }
-        if($request->hasFile('featured_image')){
-            // if($request->validate([
-            //     'featured_image'=> 'max:512|image|dimensions:max_height=500,max_width:500',
-            // ]));
-            $image = $request->file('featured_image');
-            $imagesFileName = $image->getClientOriginalName();
-            $fileName = pathinfo($imagesFileName , PATHINFO_FILENAME);
-            $extension = pathinfo($imagesFileName , PATHINFO_EXTENSION);
-            $originalName = $fileName .'.'.$extension;
-            $path = public_path('images/products/featured_image');
-            File::makeDirectory($path , $mode=0777,true,true);
-            Image::make($image)->save($path.$originalName);
-            $products->thumbnail = $originalName;
+
+        if ($request->hasFile('featured_image')) {
+            $featured_image = $request->File('featured_image');
+            if (count($featured_image) >= 1) {
+                $images = array();
+                $image = $request->file('featured_image');
+                foreach ($image as $item) {
+                    $imagesFileName = $item->getClientOriginalName();
+                    $fileName = pathinfo($imagesFileName, PATHINFO_FILENAME);
+                    $extension = pathinfo($imagesFileName, PATHINFO_EXTENSION);
+                    $originalName = $fileName . '.' . $extension;
+                    $path = public_path('images/products/featured_image/');
+                    File::makeDirectory($path, $mode = 0777, true, true);
+                    if (File::exists($path . $originalName)) {
+                        $originalName =   random_int(10, 99) . $originalName;
+                    }
+                    $images[] = $originalName;
+                    Image::make($item)->save($path . $originalName);
+                }
+                $products->featured_image = implode("|", $images);
+            } else {
+                $image = $request->file('featured_image');
+                $imagesFileName = $image->getClientOriginalName();
+                $fileName = pathinfo($imagesFileName, PATHINFO_FILENAME);
+                $extension = pathinfo($imagesFileName, PATHINFO_EXTENSION);
+                $originalName = $fileName . '.' . $extension;
+                $path = public_path('images/products/featured_image/');
+                File::makeDirectory($path, $mode = 0777, true, true);
+                Image::make($image)->save($path . $originalName);
+                $products->featured_image = $originalName;
+            }
         }
         $products->quantity  =  $request->quantity;
         $products->size  =  $request->size;
+        $products->color  =  $request->color;
+        $products->waist  =  $request->waist;
+        $products->length  =  $request->length;
+        $products->chest  =  $request->chest;
+        $products->fabric  =  $request->fabric;
         $products->abalivality  =  $request->abalivality;
         $products->video_link  =  $request->video_link;
         $products->camera  =  $request->camera;
@@ -134,8 +163,8 @@ class ProductController extends Controller
         $products->ram_size  =  $request->ram_size;
         $products->storage  =  $request->storage;
         $products->save();
-         Session()->flash('alert-success','Products Added Successfully');
-         return redirect()->route('products.index');
+        Session()->flash('alert-success', 'Products Added Successfully');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -161,10 +190,10 @@ class ProductController extends Controller
         $categories = Category::all();
         $subCategories = SubCategory::all();
         $brands = Brand::all();
-        return view('backend.product.edit_product',[
+        return view('backend.product.edit_product', [
             'product' => $product,
-            'categories' =>$categories,
-            'subCategories'=>$subCategories,
+            'categories' => $categories,
+            'subCategories' => $subCategories,
             'brands' => $brands
         ]);
     }
@@ -180,6 +209,8 @@ class ProductController extends Controller
     {
         $products = Product::findOrFail($id);
         $products->name  =  $request->name;
+        $products->price  =  $request->price;
+        $products->offer_price  =  $request->offer_price;
         $products->slug  =  Str::slug($request->name);
         $products->product_id  = random_int(100000, 999999);
         $products->category_id  =  $request->category_id;
@@ -190,7 +221,7 @@ class ProductController extends Controller
         $products->short_description  =  $request->short_description;
         $products->tag  =  $request->tag;
 
-        if($request->hasFile('thumbnail')){
+        if ($request->hasFile('thumbnail')) {
             // if($request->validate([
             //     'thumbnail'=> 'max:512|image|dimensions:max_height=500,max_width:500',
             // ]));
@@ -198,34 +229,37 @@ class ProductController extends Controller
             $imagesFileName = $image->getClientOriginalName();
             $fileName = pathinfo($imagesFileName, PATHINFO_FILENAME);
             $extension = pathinfo($imagesFileName, PATHINFO_EXTENSION);
-            $originalName = $fileName .'.'.$extension;
+            $originalName = $fileName . '.' . $extension;
             $path = public_path('images/products/thumbnail/');
-            File::makeDirectory($path , $mode=0777,true,true);
+            File::makeDirectory($path, $mode = 0777, true, true);
             $products->thumbnail = $originalName;
             if (file_exists("images/products/thumbnail/$products->thumbnail")) {
                 File::delete("images/products/thumbnail/$products->thumbnail");
             }
-            Image::make($image)->save($path.$originalName);
+            Image::make($image)->save($path . $originalName);
         }
-        if($request->hasFile('featured_image')){
+        if ($request->hasFile('featured_image')) {
             // if($request->validate([
             //     'featured_image'=> 'max:512|image|dimensions:max_height=500,max_width:500',
             // ]));
             $image = $request->file('featured_image');
             $imagesFileName = $image->getClientOriginalName();
-            $fileName = pathinfo($imagesFileName , PATHINFO_FILENAME);
-            $extension = pathinfo($imagesFileName , PATHINFO_EXTENSION);
-            $originalName = $fileName .'.'.$extension;
-            $path = public_path('images/products/featured_image');
-            Image::make($image)->save($path.$originalName);
-            $products->thumbnail = $originalName;
-            if (file_exists("images/products/thumbnail/$products->thumbnail")) {
-                File::delete("images/products/thumbnail/$products->thumbnail");
+            $fileName = pathinfo($imagesFileName, PATHINFO_FILENAME);
+            $extension = pathinfo($imagesFileName, PATHINFO_EXTENSION);
+            $originalName = $fileName . '.' . $extension;
+            $path = public_path('images/products/featured_image/');
+            $products->featured_image = $originalName;
+            if (file_exists("images/products/featured_image/$products->featured_image")) {
+                File::delete("images/products/featured_image/$products->featured_image");
             }
-            File::makeDirectory($path , $mode=0777,true,true);
+            Image::make($image)->save($path . $originalName);
         }
         $products->quantity  =  $request->quantity;
         $products->size  =  $request->size;
+        $products->waist  =  $request->waist;
+        $products->length  =  $request->length;
+        $products->chest  =  $request->chest;
+        $products->fabric  =  $request->fabric;
         $products->abalivality  =  $request->abalivality;
         $products->video_link  =  $request->video_link;
         $products->camera  =  $request->camera;
@@ -236,8 +270,8 @@ class ProductController extends Controller
         $products->ram_size  =  $request->ram_size;
         $products->storage  =  $request->storage;
         $products->update();
-         Session()->flash('alert-success','Products Update Successfully');
-         return redirect()->route('products.index');
+        Session()->flash('alert-success', 'Products Update Successfully');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -249,7 +283,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         Product::findOrFail($id)->delete();
-        Session()->flash('alert-success','Products Added Successfully');
-         return redirect()->route('products.index');
+        Session()->flash('alert-success', 'Products Added Successfully');
+        return redirect()->route('products.index');
     }
 }

@@ -38,6 +38,20 @@
                     @enderror
                   </div>
                   <div class="col-md-6">
+                    <label class="form-label" for="price">Product price</label>
+                    <input class="form-control @error('price') is-invalid @enderror" name="price" value="{{$product->price ?? old('price')}}" id="price" type="text" placeholder="Enter Product price" required="">
+                    @error('price')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="offer_price">Product Offer Price</label>
+                    <input class="form-control @error('offer_price') is-invalid @enderror" name="offer_price" value="{{$product->offer_price ?? old('offer_price')}}" id="offer_price" type="text" placeholder="Enter Product Offer Price" required="">
+                    @error('offer_price')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
                     <label class="form-label" for="size">Size</label>
                     {{-- <input class="form-control @error('size') is-invalid @enderror" name="size" value="{{old('size')}}" id="size" type="text" placeholder="Enter Size" required=""> --}}
                     <select name="size" id="" class="form-control @error('size') is-invalid @enderror" value="{{$product->size ?? old('size')}}">
@@ -96,7 +110,7 @@
                   </div>
                   <div class="col-md-6">
                     <label class="form-label" for="thumbnail">Thumbnail</label>
-                    <input class="form-control @error('thumbnail') is-invalid @enderror" name="thumbnail" value="{{old('featured_image')}}" id="thumbnail" type="file" required="">
+                    <input multiple class="form-control @error('thumbnail') is-invalid @enderror" name="thumbnail" value="{{old('thumbnail')}}" id="thumbnail" type="file" required="">
                     <img width="100" src='{{asset("images/products/thumbnail/".$product->thumbnail)}}' alt="{{$product->thumbnail}}">
                     @error('thumbnail')
                         <div class="alert text-danger">{{$message}}</div>
@@ -110,6 +124,42 @@
                         <div class="alert text-danger">{{$message}}</div>
                     @enderror
                   </div>
+                  
+                  <div class="col-md-6">
+                    <label class="form-label" for="color">Color</label>
+                    <input class="form-control @error('color') is-invalid @enderror" name="color" value="{{$product->color ?? old('color')}}" id="color" type="text" placeholder="Enter color" required="">
+                    @error('color')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="waist">Waist</label>
+                    <input class="form-control @error('waist') is-invalid @enderror" name="waist" value="{{$product->waist ?? old('waist')}}" id="waist" type="text" placeholder="Enter waist" required="">
+                    @error('waist')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="length">Length</label>
+                    <input class="form-control @error('length') is-invalid @enderror" name="length" value="{{$product->length ?? old('length')}}" id="length" type="text" placeholder="Enter length" required="">
+                    @error('length')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="chest">Chest</label>
+                    <input class="form-control @error('chest') is-invalid @enderror" name="chest" value="{{$product->chest ?? old('chest')}}" id="chest" type="text" placeholder="Enter chest" required="">
+                    @error('chest')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="fabric">Fabric</label>
+                    <input class="form-control @error('fabric') is-invalid @enderror" name="fabric" value="{{$product->fabric ?? old('fabric')}}" id="fabric" type="text" placeholder="Enter fabric" required="">
+                    @error('fabric')
+                        <div class="alert text-danger">{{$message}}</div>
+                    @enderror
+                  </div>
                   <div class="col-md-6">
                     <label class="form-label" for="quantity">Quantity</label>
                     <input class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{$product->quantity ?? old('quantity')}}" id="quantity" type="number" placeholder="Enter Quantity" required="">
@@ -118,10 +168,14 @@
                     @enderror
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label" for="quantity">Abalivality</label>
-                    <input class="form-control @error('abalivality') is-invalid @enderror" name="abalivality" value="{{$product->abalivality ?? old('abalivality')}}" id="abalivality" placeholder="Enter Abalivality" type="text"  required="">
+                    <label class="form-label" for="abalivality">Abalivality</label>
+                    <select name="abalivality" id="abalivality" class="form-control  @error('abalivality') is-invalid @enderror">
+                      <option value>Select Abalivality</option>
+                      <option @if ($product->abalivality == 1) selected @endif value="1">In Stock</option>
+                      <option  @if ($product->abalivality == 0) selected @endif  value="0">Out Of Stock Stock</option>
+                    </select>
                     @error('abalivality')
-                        <div class="alert text-danger">{{$message}}</div>
+                    <div class="alert text-danger">{{$message}}</div>
                     @enderror
                   </div>
                   <div class="col-md-6">

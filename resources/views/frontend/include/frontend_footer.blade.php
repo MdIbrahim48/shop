@@ -1,3 +1,5 @@
+@extends('layouts.app')
+
 <footer id="footer" class="dark">
     <div class="container">
 
@@ -13,19 +15,19 @@
 
                             <div class="widget clearfix">
 
-                                <img src="{{asset('frontend/images/footer-widget-logo.png')}}" alt="Image" class="footer-logo">
+                                {{-- <img src="{{$setting->icon}}" alt="{{$setting->icon}}" class="footer-logo"> --}}
 
                                 <p>We believe in <strong>Simple</strong>, <strong>Creative</strong> &amp; <strong>Flexible</strong> Design Standards.</p>
 
                                 <div style="background: url('{{asset('frontend/images/world-map.png')}}') no-repeat center center; background-size: 100%;">
                                     <address>
-                                        <strong>Headquarters:</strong><br>
-                                        795 Folsom Ave, Suite 600<br>
-                                        San Francisco, CA 94107<br>
+                                        <strong>: {{$settings->description??''}}</strong><br>
+                                        {{-- 795 Folsom Ave, Suite 600<br>
+                                        San Francisco, CA 94107<br> --}}
                                     </address>
-                                    <abbr title="Phone Number"><strong>Phone:</strong></abbr> (1) 8547 632521<br>
-                                    <abbr title="Fax"><strong>Fax:</strong></abbr> (1) 11 4752 1433<br>
-                                    <abbr title="Email Address"><strong>Email:</strong></abbr> info@canvas.com
+                                    <abbr title="Phone Number"><strong>Phone:</strong></abbr> (1) {{$settings->phone??''}}<br>
+                                    <abbr title="Fax"><strong>Fax:</strong></abbr> (1) {{$settings->fax??''}}<br>
+                                    <abbr title="Email Address"><strong>Email:</strong></abbr> {{$settings->email??''}}
                                 </div>
 
                             </div>
@@ -135,10 +137,24 @@
                             <div class="widget subscribe-widget clearfix">
                                 <h5><strong>Subscribe</strong> to Our Newsletter to get Important News, Amazing Offers &amp; Inside Scoops:</h5>
                                 <div class="widget-subscribe-form-result"></div>
-                                <form id="widget-subscribe-form" action="include/subscribe.php" method="post" class="mb-0">
+                                {{-- <div class="row">
+                                    <div class="col-md-12"> --}}
+                                        <div>
+                                            @if($errors->has('email'))
+                                                <div class="text text-danger">{{ $errors->first('email') }}</div>
+                                            @endif
+                                        </div>
+                                    {{-- </div>
+                                </div> --}}
+                                <form id="widget-subscribe-form" action="{{route('subscribe.store')}}" method="post" class="mb-0">
+                                    @csrf
                                     <div class="input-group mx-auto">
+                                        
+                                        
                                         <div class="input-group-text"><i class="icon-email2"></i></div>
-                                        <input type="email" id="widget-subscribe-form-email" name="widget-subscribe-form-email" class="form-control required email" placeholder="Enter your Email">
+                                        <input type="email" id="widget-subscribe-form-email" name="email" class="form-control required email" placeholder="Enter your Email">
+                                        <br>
+                                        
                                         <button class="btn btn-success" type="submit">Subscribe</button>
                                     </div>
                                 </form>
@@ -185,72 +201,27 @@
             <div class="row col-mb-30">
 
                 <div class="col-md-6 text-center text-md-start">
-                    Copyrights &copy; 2020 All Rights Reserved by Canvas Inc.<br>
+                    Copyrights &copy;{{$settings->copyright??''}}<br>
                     <div class="copyright-links"><a href="#">Terms of Use</a> / <a href="#">Privacy Policy</a></div>
                 </div>
 
                 <div class="col-md-6 text-center text-md-end">
                     <div class="d-flex justify-content-center justify-content-md-end">
-                        <a href="#" class="social-icon si-small si-borderless si-facebook">
-                            <i class="icon-facebook"></i>
-                            <i class="icon-facebook"></i>
+                        @foreach ($socialIcon as $item)
+                        <a href="{{$item->url}}" class="social-icon si-small si-borderless si-facebook">
+                            <i class="{{$item->icon}}"></i>
+                            <i class="{{$item->icon}}"></i>
                         </a>
-
-                        <a href="#" class="social-icon si-small si-borderless si-twitter">
-                            <i class="icon-twitter"></i>
-                            <i class="icon-twitter"></i>
-                        </a>
-
-                        <a href="#" class="social-icon si-small si-borderless si-gplus">
-                            <i class="icon-gplus"></i>
-                            <i class="icon-gplus"></i>
-                        </a>
-
-                        <a href="#" class="social-icon si-small si-borderless si-pinterest">
-                            <i class="icon-pinterest"></i>
-                            <i class="icon-pinterest"></i>
-                        </a>
-
-                        <a href="#" class="social-icon si-small si-borderless si-vimeo">
-                            <i class="icon-vimeo"></i>
-                            <i class="icon-vimeo"></i>
-                        </a>
-
-                        <a href="#" class="social-icon si-small si-borderless si-github">
-                            <i class="icon-github"></i>
-                            <i class="icon-github"></i>
-                        </a>
-
-                        <a href="#" class="social-icon si-small si-borderless si-yahoo">
-                            <i class="icon-yahoo"></i>
-                            <i class="icon-yahoo"></i>
-                        </a>
-
-                        <a href="#" class="social-icon si-small si-borderless si-linkedin">
-                            <i class="icon-linkedin"></i>
-                            <i class="icon-linkedin"></i>
-                        </a>
+                        @endforeach
                     </div>
 
                     <div class="clear"></div>
 
-                    <i class="icon-envelope2"></i> info@canvas.com <span class="middot">&middot;</span> <i class="icon-headphones"></i> +1-11-6541-6369 <span class="middot">&middot;</span> <i class="icon-skype2"></i> CanvasOnSkype
+                    <i class="icon-envelope2"></i> {{$settings->email??''}} <span class="middot">&middot;</span> <i class="icon-headphones"></i> +1-11-6541-6369 <span class="middot">&middot;</span> <i class="icon-skype2"></i> CanvasOnSkype
                 </div>
-
             </div>
 
         </div>
     </div><!-- #copyrights end -->
 </footer><!-- #footer end -->
 
-</div><!-- #wrapper end -->
-
-<!-- Go To Top
-============================================= -->
-<div id="gotoTop" class="icon-angle-up"></div>
-
-<!-- JavaScripts
-============================================= -->
-@include('frontend.include.frontend_js')
-</body>
-</html>
