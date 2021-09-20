@@ -14,7 +14,7 @@ class NotificationController extends Controller
         ]);
         $collection = Notification::latest()->get();
         return view('backend.notification.notification',[
-            'collection' => $collection
+            'collection' => $notification
         ]);
     }
 }

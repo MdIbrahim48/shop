@@ -4,30 +4,24 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use Illuminate\Support\Facades\Session;
-use Cart;
 
-class AddToCartController extends Controller
+class WhislistController extends Controller
 {
     /**
      * Display a listing of the resource.
-     
+     *
      * @return \Illuminate\Http\Response
      */
-    public function addToCart(Request $request)
-    {
-        
-        $singleCart = Product::find($request->product_id);
 
-        Cart::instance('addtoCart')->add($singleCart->product_id, $singleCart->name, $request->quantity, $singleCart->price)->associate('App\Models\Product');
+    public function whislist(){
+        
         return back();
     }
 
-    public function showCart(){
-        return view('frontend.cart');
+    public function index()
+    {
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.

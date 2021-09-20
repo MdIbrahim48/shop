@@ -28,7 +28,7 @@
 									<div class="sale-flash badge bg-secondary p-2"> @if ($product->abalivality == 1) Instock @else Out of Stock @endif</div>
 									<div class="bg-overlay">
 										<div class="bg-overlay-content align-items-end justify-content-between" data-hover-animate="fadeIn" data-hover-speed="400">
-											<a href="{{route('whislist')}}" class="btn btn-dark me-2"><i class="icon-shopping-basket"></i></a>
+											<a href="{{route('single.cart',$product->id)}}" class="btn btn-dark me-2"><i class="icon-shopping-basket"></i></a>
 											<a href="include/ajax/shop-item.html" class="btn btn-dark" data-lightbox="ajax"><i class="icon-line-expand"></i></a>
 										</div>
 										<div class="bg-overlay-bg bg-transparent"></div>

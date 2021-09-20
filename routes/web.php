@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\BrandController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\Backend\SubsCriptionController;
 use App\Http\Controllers\Backend\NotificationController;
 use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\Frontend\AddToCartController;
+use App\Http\Controllers\Frontend\CustomerLoginController;
+use App\Http\Controllers\Frontend\SingleCartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +28,11 @@ use Illuminate\Support\Facades\Route;
 // Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['prefix'=>'backend'],function(){
+
+Route::resource('/login',LoginController::class)->only(['index','store']);
+Route::post('/logout',[LoginController::class,'logout'])->name('logout');
+
+Route::group(['prefix'=>'backend','middleware'=>['auth']],function(){
     Route::get('/', function () {
         return view('backend.dashboard');
     })->name('dashboard');
@@ -59,11 +66,19 @@ Route::group(['prefix'=>'backend'],function(){
  Route::get('/category/{slug}',[WebsiteController::class,'category'])->name('category');
  //  category item
  Route::get('/category-item/{slug}',[WebsiteController::class,'subCategoryItem'])->name('category.item');
+ //  single Cart
+ Route::get('/single-cart/{id}',[SingleCartController::class,'singleCart'])->name('single.cart');
  //  add To Cart
- Route::POST('/add-cart',[AddToCartController::class,'addToCart'])->name('add.cart');
+ Route::get('/add-cart',[AddToCartController::class,'addToCart'])->name('add.cart');
+// show cart
+ Route::get('/show-cart',[AddToCartController::class,'showCart'])->name('show.cart');
+
+//  customer login
+Route::resource('customer', CustomerLoginController::class);
+Route::post('/customer-login',[CustomerLoginController::class,'customerLogin'])->name('customer.login');
 
 // search
- Route::post('/search',[WebsiteController::class,'search'])->name('search');
+Route::post('/search',[WebsiteController::class,'search'])->name('search');
 
 // subscription
 Route::resource('subscribe',SubsCriptionController::class)->only(['index','store']);

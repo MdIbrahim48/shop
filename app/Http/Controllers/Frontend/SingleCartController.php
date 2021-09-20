@@ -3,31 +3,29 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 use Cart;
 
-class AddToCartController extends Controller
+class SingleCartController extends Controller
 {
     /**
      * Display a listing of the resource.
-     
+     *
      * @return \Illuminate\Http\Response
      */
-    public function addToCart(Request $request)
-    {
-        
-        $singleCart = Product::find($request->product_id);
 
-        Cart::instance('addtoCart')->add($singleCart->product_id, $singleCart->name, $request->quantity, $singleCart->price)->associate('App\Models\Product');
+    public function singleCart($id){
+        $singleCart = Product::find($id);
+        Cart::instance('addtoCart')->add($singleCart->product_id, $singleCart->name, 1, $singleCart->price)->associate('App\Models\Product');
         return back();
     }
 
-    public function showCart(){
-        return view('frontend.cart');
+  
+    public function index()
+    {
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.

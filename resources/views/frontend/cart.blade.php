@@ -20,7 +20,6 @@
                     <thead>
                         <tr>
                             <th class="cart-product-remove">&nbsp;</th>
-                            <th class="cart-product-thumbnail">&nbsp;</th>
                             <th class="cart-product-name">Product</th>
                             <th class="cart-product-price">Unit Price</th>
                             <th class="cart-product-quantity">Quantity</th>
@@ -28,15 +27,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{Cart::instance('addtoCart')->content()}}
                         @foreach (Cart::instance('addtoCart')->content() as $item)
                             <tr class="cart_item">
                                 <td class="cart-product-remove">
                                     <a href="#" class="remove" title="Remove this item"><i class="icon-trash2"></i>{{Cart::destroy()}}</a>
                                 </td>
-                                <td class="cart-product-thumbnail">
+                                {{-- <td class="cart-product-thumbnail">
                                     <a href="#"><img width="64" height="64" src="{{asset('frontend/images/shop/thumbs/small/dress-3.jpg')}}" alt="Pink Printed Dress"></a>
-                                </td>
+                                </td> --}}
 
                                 <td class="cart-product-name">
                                     <a href="#">{{$item->name}}</a>
@@ -45,20 +43,31 @@
                                 <td class="cart-product-price">
                                     <span id="price" class="amount">{{$item->price}}</span>
                                 </td>
-
                                 <td class="cart-product-quantity">
-                                    <div class="quantity">
-                                        <input type="button" value="-" onclick="decrement()" class="minus" id="minus">
-                                        <input type="text" name="quantity" value="2" id="qty" class="qty" />
-                                        <input type="button" onclick="increment()" value="+" class="plus" id="plus">
+                                    {{-- <div class="quantity">
+                                        <input type="button" value="-" class="minus">
+                                        <input type="text" name="quantity" value="2"class="qty" />
+                                        <input type="button" value="+" class="plus">
+                                    </div> --}}
+
+                                    <div class="mr-2 s_qtty_area d-flex">
+                                        <div onclick="decrement()" class="btn border_redious0"><i class="fa fa-minus font-size-15"></i></div>
+                                        <div id="output-area" desabled class="btn border_redious0 btn-desabled font-size-15"></div>
+                                        <input type="hidden" name="qtty" value="1" id="input-qtty">
+                                        <div class="btn border_redious0" onclick="increment()"><i class="fa fa-plus font-size-15"></i></div>
                                     </div>
                                 </td>
-                                <td class="cart-product-subtotal">
-                                    <span id="totalPrice" class="amount">{{Cart::subtotal()}}</span>
-                                </td>
+                                
                             </tr> 
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="cart-product-price">
+                                <span id="price" class="amount">{{Cart::subtotal()}}</span>
+                            </td>
+                        </tr>
+                    </tfoot>
 
                 </table>
 
@@ -94,7 +103,6 @@
 
                     <div class="col-lg-6">
                         <h4>Cart Totals</h4>
-
                         <div class="table-responsive">
                             <table class="table cart cart-totals">
                                 <tbody>
@@ -104,7 +112,7 @@
                                         </td>
 
                                         <td class="cart-product-name">
-                                            <span class="amount">$106.94</span>
+                                            <span class="amount">{{Cart::subtotal()}}</span>
                                         </td>
                                     </tr>
                                     <tr class="cart_item">
@@ -122,7 +130,7 @@
                                         </td>
 
                                         <td class="cart-product-name">
-                                            <span class="amount color lead"><strong>$106.94</strong></span>
+                                            <span class="amount color lead"><strong>{{Cart::instance('addtoCart')->subtotal()}}</strong></span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -135,34 +143,32 @@
             </div>
         </div>
     </section><!-- #content end -->
+      
+    {{-- <div class="mr-2 s_qtty_area d-flex">
+        <div onclick="decrement()" class="btn border_redious0"><i class="fa fa-minus font-size-15"></i></div>
+        <div id="output-area" desabled class="btn border_redious0 btn-desabled font-size-15"></div>
+        <input type="hidden" name="qtty" value="1" id="input-qtty">
+        <div class="btn border_redious0" onclick="increment()"><i class="fa fa-plus font-size-15"></i></div>
+    </div> --}}
+
     <script>
-        const a=1;
-        const increment = document.getElementById('qty').value;
-        const decrement = document.getElementById('minus');
-        const price = document.getElementById('price').textContent;
-        
-        const increment = document.getElementById('totalPrice').innerHTML = 500;
+        var x = 1;
+        document.getElementById('output-area').innerHTML = x;
 
-        document.getElementById('plus').addEventListener('click',function(){
-            let price = document.getElementById('price').textContent;
-            let qty = document.getElementById('qty').value;
-            const total = price * qty;
-            console.log(total)
-        })
-
-        document.getElementById('minus').addEventListener('click',function(){
-            let price = document.getElementById('price').textContent;
-            let qty = document.getElementById('qty').value;
-            let total = price*2
-            console.log(total)
-        })
-
-        function increment(){
-            let a=++1;
-            let total = a*price
-            const increment = document.getElementById('totalPrice').innerHTML = total;
-        
+        function increment() {
+            var a = ++x;
+            document.getElementById('output-area').innerHTML = a;
+            document.getElementById('input-qtty').value = a;
+            document.getElementById('input-buynowqtty').value = a;
         }
-        increment()
+
+        function decrement() {
+            if (x > 1) {
+            var a = --x;
+            document.getElementById('output-area').innerHTML = a;
+            document.getElementById('input-qtty').value = a;
+            document.getElementById('input-buynowqtty').value = a;
+            }
+        }
     </script>
 @endsection

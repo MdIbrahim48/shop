@@ -1,33 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use Illuminate\Support\Facades\Session;
-use Cart;
+use Auth;
+use Session;
 
-class AddToCartController extends Controller
+class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.
-     
+     *
      * @return \Illuminate\Http\Response
      */
-    public function addToCart(Request $request)
+    public function index()
     {
-        
-        $singleCart = Product::find($request->product_id);
-
-        Cart::instance('addtoCart')->add($singleCart->product_id, $singleCart->name, $request->quantity, $singleCart->price)->associate('App\Models\Product');
-        return back();
+        return view('login.login');
     }
-
-    public function showCart(){
-        return view('frontend.cart');
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -47,7 +36,24 @@ class AddToCartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $userInformation = $request->only(['email','password']);
+        if(Auth::attempt($userInformation)){
+            return redirect()->route('dashboard');
+        }else{
+            Session::flash('alert-danger', "Email and Password doesn't match ");
+            return redirect()->to('/login');
+        }
+        
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login.index');
     }
 
     /**

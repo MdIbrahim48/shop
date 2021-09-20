@@ -23,43 +23,31 @@
 							<!-- Top Cart
 							============================================= -->
 							<div id="top-cart" class="header-misc-icon d-none d-sm-block">
-								<a href="#" id="top-cart-trigger"><i class="icon-line-bag"></i><span class="top-cart-number">5</span></a>
+								<a href="#" id="top-cart-trigger"><i class="icon-line-bag"></i><span class="top-cart-number">{{Cart::instance('addtoCart')->count()}}</span></a>
 								<div class="top-cart-content">
 									<div class="top-cart-title">
 										<h4>Shopping Cart</h4>
 									</div>
 									<div class="top-cart-items">
+										@foreach (Cart::instance('addtoCart')->content() as $item)
 										<div class="top-cart-item">
-											<div class="top-cart-item-image">
-												<a href="#"><img src="{{asset('frontend/images/shop/small/1.jpg')}}" alt="Blue Round-Neck Tshirt" /></a>
-											</div>
 											<div class="top-cart-item-desc">
 												<div class="top-cart-item-desc-title">
-													<a href="#">Blue Round-Neck Tshirt with a Button</a>
-													<span class="top-cart-item-price d-block">$19.99</span>
+													<a href="#">{{$item->name}}</a>
+													<span class="top-cart-item-price d-block">{{$item->price}}</span>
 												</div>
-												<div class="top-cart-item-quantity">x 2</div>
+												<div class="top-cart-item-quantity">{{$item->qty}}</div>
 											</div>
 										</div>
-										<div class="top-cart-item">
-											<div class="top-cart-item-image">
-												<a href="#"><img src="{{asset('frontend/images/shop/small/6.jpg')}}" alt="Light Blue Denim Dress" /></a>
-											</div>
-											<div class="top-cart-item-desc">
-												<div class="top-cart-item-desc-title">
-													<a href="#">Light Blue Denim Dress</a>
-													<span class="top-cart-item-price d-block">$24.99</span>
-												</div>
-												<div class="top-cart-item-quantity">x 3</div>
-											</div>
-										</div>
+										@endforeach
 									</div>
 									<div class="top-cart-action">
-										<span class="top-checkout-price">$114.95</span>
-										<a href="#" class="button button-3d button-small m-0">View Cart</a>
+										<span class="top-checkout-price">{{Cart::subtotal()}}</span>
+										<a href="{{route('show.cart')}}" class="button button-3d button-small m-0">View Cart</a>
 									</div>
 								</div>
 							</div><!-- #top-cart end -->
+							<div class="login"><a href="{{route('customer.index')}}"><i class="fas fa-user"></i>login</a></div>
 
 						</div>
 
