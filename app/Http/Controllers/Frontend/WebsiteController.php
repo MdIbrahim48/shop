@@ -8,8 +8,10 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Category;
 use App\Models\Cart;
+use App\Models\Comment;
 use App\Models\SocialIcon;
 use App\Models\SubCategory;
+use App\Models\Review;
 use DB;
 
 class WebsiteController extends Controller
@@ -30,7 +32,9 @@ class WebsiteController extends Controller
             $pByCategory = Product::where('category_id', $product->category_id)->get();
             return view('frontend.single_shop', [
                 'product' => $product,
-                'pByCategory' => $pByCategory
+                'pByCategory' => $pByCategory,
+                'reviews' => Review::orderBy('id','desc')->where('status',0)->get(),
+                'comments' => Comment::orderBy('id','desc')->get(),
             ]);
         } else {
             return abort(404);

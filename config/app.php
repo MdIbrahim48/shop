@@ -233,7 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
-        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        // 'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
 
 
     ],

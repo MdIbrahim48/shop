@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\CustomerRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Auth;
 use Session;
+use Auth;
+
 class CustomerLoginController extends Controller
 {
     /**
@@ -16,28 +17,40 @@ class CustomerLoginController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function customerLogin(Request $request){
+    public function customerLogin(Request $request)
+    {
         $request->validate([
             'email' => 'email',
             'password' => 'min:5',
         ]);
-       // $user = $request->only(['email','password']);
-        $user = CustomerRegistration::where('email', '=',$request->email)->first();
-        $password =  Hash::check($request->password, $user->password);
-        if($user == $request->user && $password == $request->password){
-            return redirect()->route('dashboard');
-        }else{
-            Session()->flash('alert-danger', "Email and Password doesn't match");
-            return back();
+
+        $credentials = $request->only('email', 'password');
+        // dd($credentials);
+        // if (Auth::attempt($credentials)) {
+        if (Auth::guard('customer')->attempt($credentials)) {
+            dd('login');
         }
 
-        if(Auth::attempt($user)){
-            return redirect()->route('dashboard');
-        }else{
-            Session()->flash('alert-danger', "Email and Password doesn't match");
-            return back();
-        }
-        
+        Session()->flash('alert-danger', "Email and Password doesn't match");
+        return back();
+        //    // $user = $request->only(['email','password']);
+        //     $user = CustomerRegistration::where('email', '=',$request->email)->first();
+        //     $password =  Hash::check($request->password, $user->password);
+        //     if($user == $request->user && $password == $request->password){
+        //         return redirect()->route('dashboard');
+        //     }else{
+        //         Session()->flash('alert-danger', "Email and Password doesn't match");
+        //         return back();
+        //     }
+
+        //     // if(Auth::attempt($user)){
+
+        //     return redirect()->route('dashboard');
+        // }else{
+        //     Session()->flash('alert-danger', "Email and Password doesn't match");
+        //     return back();
+        // }
+
     }
     public function index()
     {
@@ -77,7 +90,7 @@ class CustomerLoginController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
-        Session()->flash('alert-success','Registration Successfully');
+        Session()->flash('alert-success', 'Registration Successfully');
         return back();
     }
 

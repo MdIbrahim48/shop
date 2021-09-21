@@ -203,7 +203,8 @@
 								<ul class="tab-nav clearfix">
 									<li><a href="#tabs-1"><i class="icon-align-justify2"></i><span class="d-none d-md-inline-block"> Description</span></a></li>
 									<li><a href="#tabs-2"><i class="icon-info-sign"></i><span class="d-none d-md-inline-block"> Additional Information</span></a></li>
-									<li><a href="#tabs-3"><i class="icon-star3"></i><span class="d-none d-md-inline-block"> Reviews (2)</span></a></li>
+									<li><a href="#tabs-3"><i class="icon-star3"></i><span class="d-none d-md-inline-block"> Reviews {{$reviews->count()}}</span></a></li>
+									<li><a href="#tabs-4"><i class="icon-star3"></i><span class="d-none d-md-inline-block">Comment</span></a></li>
 								</ul>
 
 								<div class="tab-container">
@@ -253,61 +254,45 @@
 										<div id="reviews" class="clearfix">
 
 											<ol class="commentlist clearfix">
+												@foreach ($reviews as $review)
+													<li class="comment even thread-even depth-1" id="li-comment-1">
+														<div id="comment-1" class="comment-wrap clearfix">
 
-												<li class="comment even thread-even depth-1" id="li-comment-1">
-													<div id="comment-1" class="comment-wrap clearfix">
-
-														<div class="comment-meta">
-															<div class="comment-author vcard">
-																<span class="comment-avatar clearfix">
-																<img alt='Image' src='https://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=60' height='60' width='60' /></span>
+															<div class="comment-meta">
+																<div class="comment-author vcard">
+																	<span class="comment-avatar clearfix">
+																	<img alt='Image' src='https://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=60' height='60' width='60' /></span>
+																</div>
 															</div>
-														</div>
 
-														<div class="comment-content clearfix">
-															<div class="comment-author">John Doe<span><a href="#" title="Permalink to this comment">April 24, 2021 at 10:46AM</a></span></div>
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo perferendis aliquid tenetur. Aliquid, tempora, sit aliquam officiis nihil autem eum at repellendus facilis quaerat consequatur commodi laborum saepe non nemo nam maxime quis error tempore possimus est quasi reprehenderit fuga!</p>
-															<div class="review-comment-ratings">
-																<i class="icon-star3"></i>
-																<i class="icon-star3"></i>
-																<i class="icon-star3"></i>
-																<i class="icon-star3"></i>
-																<i class="icon-star-half-full"></i>
+															<div class="comment-content clearfix">
+																<div class="comment-author">{{$review->name}}<br><span>{{$review->email}}</span><span><a href="#" title="Permalink to this comment">{{$review->created_at}}</a></span></div>
+																<p>{{$review->comment}}</p>
+																<div class="review-comment-ratings">
+																	@if ($review->rating >= 1)
+																	<i class="icon-star3"></i>
+																	@endif
+																	@if ($review->rating >= 2)
+																	<i class="icon-star3"></i>
+																	@endif
+																	@if ($review->rating >= 3)
+																	<i class="icon-star3"></i>
+																	@endif
+																	@if ($review->rating >= 4)
+																	<i class="icon-star3"></i>
+																	@endif
+																	@if ($review->rating >= 5)
+																	<i class="icon-star3"></i>
+																	@endif
+																	{{-- <i class="icon-star-half-full"></i> --}}
+																</div>
 															</div>
+
+															<div class="clear"></div>
+
 														</div>
-
-														<div class="clear"></div>
-
-													</div>
-												</li>
-
-												<li class="comment even thread-even depth-1" id="li-comment-2">
-													<div id="comment-2" class="comment-wrap clearfix">
-
-														<div class="comment-meta">
-															<div class="comment-author vcard">
-																<span class="comment-avatar clearfix">
-																<img alt='Image' src='https://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=60' height='60' width='60' /></span>
-															</div>
-														</div>
-
-														<div class="comment-content clearfix">
-															<div class="comment-author">Mary Jane<span><a href="#" title="Permalink to this comment">June 16, 2021 at 6:00PM</a></span></div>
-															<p>Quasi, blanditiis, neque ipsum numquam odit asperiores hic dolor necessitatibus libero sequi amet voluptatibus ipsam velit qui harum temporibus cum nemo iste aperiam explicabo fuga odio ratione sint fugiat consequuntur vitae adipisci delectus eum incidunt possimus tenetur excepturi at accusantium quod doloremque reprehenderit aut expedita labore error atque?</p>
-															<div class="review-comment-ratings">
-																<i class="icon-star3"></i>
-																<i class="icon-star3"></i>
-																<i class="icon-star3"></i>
-																<i class="icon-star-empty"></i>
-																<i class="icon-star-empty"></i>
-															</div>
-														</div>
-
-														<div class="clear"></div>
-
-													</div>
-												</li>
-
+													</li>
+												@endforeach
 											</ol>
 
 											<!-- Modal Reviews
@@ -322,13 +307,16 @@
 															<button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-hidden="true"></button>
 														</div>
 														<div class="modal-body">
-															<form class="row mb-0" id="template-reviewform" name="template-reviewform" action="#" method="post">
-
+															<form class="row mb-0" id="template-reviewform" name="template-reviewform" action="{{route('reviews.store')}}" method="post">
+																@csrf
 																<div class="col-6 mb-3">
 																	<label for="template-reviewform-name">Name <small>*</small></label>
 																	<div class="input-group">
 																		<div class="input-group-text"><i class="icon-user"></i></div>
-																		<input type="text" id="template-reviewform-name" name="template-reviewform-name" value="" class="form-control required" />
+																		<input type="text" id="template-reviewform-name" name="name" value="" class="form-control required" />
+																		@error('name')
+																			<div class="alert text-danger">{{$message}}</div>
+																		@enderror
 																	</div>
 																</div>
 
@@ -336,7 +324,10 @@
 																	<label for="template-reviewform-email">Email <small>*</small></label>
 																	<div class="input-group">
 																		<div class="input-group-text">@</div>
-																		<input type="email" id="template-reviewform-email" name="template-reviewform-email" value="" class="required email form-control" />
+																		<input type="email" id="template-reviewform-email" name="email" value="" class="required email form-control" />
+																		@error('email')
+																			<div class="alert text-danger">{{$message}}</div>
+																		@enderror
 																	</div>
 																</div>
 
@@ -344,7 +335,7 @@
 
 																<div class="col-12 mb-3">
 																	<label for="template-reviewform-rating">Rating</label>
-																	<select id="template-reviewform-rating" name="template-reviewform-rating" class="form-select">
+																	<select id="template-reviewform-rating" name="rating" class="form-select">
 																		<option value="">-- Select One --</option>
 																		<option value="1">1</option>
 																		<option value="2">2</option>
@@ -352,19 +343,107 @@
 																		<option value="4">4</option>
 																		<option value="5">5</option>
 																	</select>
+																	@error('rating')
+																		<div class="alert text-danger">{{$message}}</div>
+																	@enderror
 																</div>
 
 																<div class="w-100"></div>
 
 																<div class="col-12 mb-3">
 																	<label for="template-reviewform-comment">Comment <small>*</small></label>
-																	<textarea class="required form-control" id="template-reviewform-comment" name="template-reviewform-comment" rows="6" cols="30"></textarea>
+																	<textarea class="required form-control" id="template-reviewform-comment" name="comment" rows="6" cols="30"></textarea>
+																	@error('comment')
+																	<div class="alert text-danger">{{$message}}</div>
+																@enderror
 																</div>
 
 																<div class="col-12">
 																	<button class="button button-3d m-0" type="submit" id="template-reviewform-submit" name="template-reviewform-submit" value="submit">Submit Review</button>
 																</div>
 
+															</form>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+														</div>
+													</div><!-- /.modal-content -->
+												</div><!-- /.modal-dialog -->
+											</div><!-- /.modal -->
+											<!-- Modal Reviews End -->
+
+										</div>
+
+									</div>
+									<div class="tab-content clearfix" id="tabs-4">
+										<div id="reviews" class="clearfix">
+
+											<ol class="commentlist clearfix">
+												@foreach ($comments as $comment)
+													<li class="comment even thread-even depth-1" id="li-comment-1">
+														<div id="comment-1" class="comment-wrap clearfix">
+
+															<div class="comment-meta">
+																<div class="comment-author vcard">
+																	<span class="comment-avatar clearfix">
+																	<img alt='Image' src='https://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=60' height='60' width='60' /></span>
+																</div>
+															</div>
+
+															<div class="comment-content clearfix">
+																<div class="comment-author">{{$comment->name}} <br><span>{{$comment->email}}</span></span><span><a href="#" title="Permalink to this comment">{{$comment->created_at}}</a></span></div>
+																<p>{{$comment->description}}</p>
+																
+															</div>
+
+															<div class="clear"></div>
+
+														</div>
+													</li>
+												@endforeach
+											</ol>
+
+											<!-- Modal Reviews
+											============================================= -->
+											<a href="#" data-bs-toggle="modal" data-bs-target="#reviewFormModal1" class="button button-3d m-0 float-end">Add a Comment</a>
+
+											<div class="modal fade" id="reviewFormModal1" tabindex="-1" role="dialog" aria-labelledby="reviewFormModalLabel1" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h4 class="modal-title" id="reviewFormModalLabel1">Submit a Comment</h4>
+															<button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-hidden="true"></button>
+														</div>
+														<div class="modal-body">
+															<form class="row mb-0" id="template-reviewform" name="template-reviewform" action="{{route('comments.store')}}" method="post">
+																@csrf
+																<div class="w-100"></div>
+
+																<div class="col-12 mb-3">
+																	<label for="name">Name <small>*</small></label>
+																	<input type="text" name="name" class="required form-control" id="name">
+																	@error('name')
+																	   <div class="alert text-danger">{{$message}}</div>
+																    @enderror
+																</div>
+																<div class="col-12 mb-3">
+																	<label for="email">Email <small>*</small></label>
+																	<input type="email" name="email" class="required form-control" id="email">
+																	@error('email')
+																	   <div class="alert text-danger">{{$message}}</div>
+																    @enderror
+																</div>
+																<div class="col-12 mb-3">
+																	<label for="template-reviewform-comment">Comment <small>*</small></label>
+																	<textarea class="required form-control" id="template-reviewform-comment" name="description" rows="6" cols="30"></textarea>
+																	@error('description')
+																	<div class="alert text-danger">{{$message}}</div>
+																@enderror
+																</div>
+
+																<div class="col-12">
+																	<button class="button button-3d m-0" type="submit" id="template-reviewform-submit" name="template-reviewform-submit" value="submit">Submit Comment</button>
+																</div>
 															</form>
 														</div>
 														<div class="modal-footer">

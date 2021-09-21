@@ -71,6 +71,19 @@
               <ul class="sidebar-submenu">
                 <li><a href="{{route('subscribe.index')}}">Subscribe List</a></li>
               </ul>
+            </li>
+            <li class="sidebar-list">
+              <label class="badge badge-danger">New</label><a class="sidebar-link sidebar-title" href="#"><i data-feather="box"></i><span>Review</span></a>
+              <ul class="sidebar-submenu">
+                <li><a href="{{route('reting.index')}}">Review List</a></li>
+              </ul>
+            </li>
+            <li class="sidebar-list">
+              <label class="badge badge-danger">New</label><a class="sidebar-link sidebar-title" href="#"><i data-feather="box"></i><span>Comment Reply</span></a>
+              <ul class="sidebar-submenu">
+                <li><a href="{{route('comments.index')}}">comments List</a></li>
+                {{-- <li><a href="{{route('replies.create')}}">Add Reply</a></li> --}}
+              </ul>
               <br><br>
             </li>
           </ul>

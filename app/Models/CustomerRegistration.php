@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class CustomerRegistration extends Model
 {
-    use HasFactory;
+
+    use HasApiTokens, HasFactory, Notifiable;
+
+
     protected $fillable = [
         'name',
         'email',
@@ -15,5 +20,13 @@ class CustomerRegistration extends Model
         'address',
         'password',
         'confirm_password'
+    ];
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
     ];
 }
