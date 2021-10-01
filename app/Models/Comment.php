@@ -11,10 +11,14 @@ class Comment extends Model
     protected $fillable = [
         'name',
         'email',
-        'description'
+        'description',
+        'status'
     ];
     public function reply(){
         return $this->hasMany(Reply::class);
+    }
+    public function product(){
+        return $this->belongsTo(Product::class);
     }
     
 }

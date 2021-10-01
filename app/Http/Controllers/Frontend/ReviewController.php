@@ -47,6 +47,7 @@ class ReviewController extends Controller
         $reviews->email = $request->email;
         $reviews->comment = $request->comment;
         $reviews->rating = $request->rating;
+        $reviews->product_id = $request->product_id;
         $reviews->save();
         Session()->flash('message','Review Addedd Successfully');
         return back();

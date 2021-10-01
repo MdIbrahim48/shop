@@ -256,3 +256,35 @@
     <!-- Container-fluid Ends-->
   </div>
 @endsection
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>   
+
+    // $(document).ready(function() {
+    //     // $('#category_id').change(function() {
+    //       $(document).on('change','#category_id',function() {
+    //         let category_id = $(this).val();
+    //         $.ajax({
+    //             type : 'GET',
+    //             url:"{{url('get-subcategory')}}/"+category_id,
+    //             success:function(response){
+    //               let categories = "<select class='form-control' name='subcategory_id'>"
+    //                   $.each(response,function(index,value){
+    //                     categories += `<option value="${value.id}">${value.name}</option>`
+    //                   })
+    //                   categories += '</select>';
+    //                   $('.subcategory_id').html('').html(categories);
+                  // if(response){
+                  //   $('#subcategory_id').empty();
+                  //   $('#subcategory_id').append("<option>Select One</option>");
+                  //   $.each(response,function(key,value){
+                  //     $('#subcategory_id').append("<option value='"+value.id+"'>"+value.name+"</option>")
+                  //   });
+                  // }else{
+                  //     $('#subcategory_id').empty();
+                  // }
+    //             }
+                
+    //         });
+    //     });
+    // });
+{{-- </script> --}}

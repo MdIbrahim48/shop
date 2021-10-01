@@ -28,14 +28,11 @@
                     </thead>
                     <tbody>
                         @foreach (Cart::instance('addtoCart')->content() as $item)
-                            <tr class="cart_item">
+                            <tr class="cart_item cartpage">
                                 <td class="cart-product-remove">
-                                    <a href="#" class="remove" title="Remove this item"><i class="icon-trash2"></i>{{Cart::destroy()}}</a>
+                                    <a href="#" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
                                 </td>
-                                {{-- <td class="cart-product-thumbnail">
-                                    <a href="#"><img width="64" height="64" src="{{asset('frontend/images/shop/thumbs/small/dress-3.jpg')}}" alt="Pink Printed Dress"></a>
-                                </td> --}}
-
+                            
                                 <td class="cart-product-name">
                                     <a href="#">{{$item->name}}</a>
                                 </td>
@@ -44,19 +41,21 @@
                                     <span id="price" class="amount">{{$item->price}}</span>
                                 </td>
                                 <td class="cart-product-quantity">
-                                    {{-- <div class="quantity">
+                                    <div class="quantity">
                                         <input type="button" value="-" class="minus">
-                                        <input type="text" name="quantity" value="2"class="qty" />
+                                        <input type="text" name="quantity" value="1"class="qty" />
                                         <input type="button" value="+" class="plus">
-                                    </div> --}}
-
-                                    <div class="mr-2 s_qtty_area d-flex">
-                                        <div onclick="decrement()" class="btn border_redious0"><i class="fa fa-minus font-size-15"></i></div>
-                                        <div id="output-area" desabled class="btn border_redious0 btn-desabled font-size-15"></div>
-                                        <input type="hidden" name="qtty" value="1" id="input-qtty">
-                                        <div class="btn border_redious0" onclick="increment()"><i class="fa fa-plus font-size-15"></i></div>
                                     </div>
                                 </td>
+
+                                {{-- <td class="cart-product-quantity">
+                                    <input type="hidden" class="product_id" value="{{$item['item_id']}}" >
+                                    <div class="quantity">
+                                        <input type="button" value="-" class="minus changeQuantity">
+                                        <input type="text" name="quantity" value="1"class="qty" />
+                                        <input type="button" value="+" class="plus changeQuantity">
+                                    </div>
+                                </td> --}}
                                 
                             </tr> 
                         @endforeach
@@ -143,6 +142,44 @@
             </div>
         </div>
     </section><!-- #content end -->
+
+
+
+<script>
+     // Update Cart Data
+    //  $(document).ready(function () {
+    //     $('.changeQuantity').click(function (e) {
+    //         e.preventDefault();
+
+    //         var quantity = $(this).closest(".cartpage").find('.qty').val();
+    //         var product_id = $(this).closest(".cartpage").find('.product_id').val();
+
+    //         var data = {
+    //             '_token': $('input[name=_token]').val(),
+    //             'quantity':quantity,
+    //             'product_id':product_id,
+    //         };
+
+    //         $.ajax({
+    //             url: '/update-to-cart',
+    //             type: 'POST',
+    //             data: data,
+    //             success: function (response) {
+    //                 window.location.reload();
+    //                 alertify.set('notifier','position','top-right');
+    //                 alertify.success(response.status);
+    //             }
+    //         });
+    //     });
+
+    // });
+
+</script>
+
+
+
+
+
       
     {{-- <div class="mr-2 s_qtty_area d-flex">
         <div onclick="decrement()" class="btn border_redious0"><i class="fa fa-minus font-size-15"></i></div>
@@ -151,7 +188,7 @@
         <div class="btn border_redious0" onclick="increment()"><i class="fa fa-plus font-size-15"></i></div>
     </div> --}}
 
-    <script>
+    {{-- <script>
         var x = 1;
         document.getElementById('output-area').innerHTML = x;
 
@@ -170,5 +207,5 @@
             document.getElementById('input-buynowqtty').value = a;
             }
         }
-    </script>
+    </script> --}}
 @endsection

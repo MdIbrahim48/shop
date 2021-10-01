@@ -84,6 +84,20 @@
                 <li><a href="{{route('comments.index')}}">comments List</a></li>
                 {{-- <li><a href="{{route('replies.create')}}">Add Reply</a></li> --}}
               </ul>
+            </li>
+            <li class="sidebar-list">
+              <label class="badge badge-danger">New</label><a class="sidebar-link sidebar-title" href="#"><i data-feather="box"></i><span>Divisions</span></a>
+              <ul class="sidebar-submenu">
+                <li><a href="{{route('divisions.index')}}">Division List</a></li>
+                <li><a href="{{route('divisions.create')}}">Add Division</a></li>
+              </ul>
+            </li>
+            <li class="sidebar-list">
+              <label class="badge badge-danger">New</label><a class="sidebar-link sidebar-title" href="#"><i data-feather="box"></i><span>Districts</span></a>
+              <ul class="sidebar-submenu">
+                <li><a href="{{route('districts.index')}}">Districts List</a></li>
+                <li><a href="{{route('districts.create')}}">Add Districts</a></li>
+              </ul>
               <br><br>
             </li>
           </ul>

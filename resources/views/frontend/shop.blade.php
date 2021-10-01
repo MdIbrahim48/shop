@@ -17,9 +17,8 @@
 	<section id="content">
 		<div class="content-wrap">
 			<div class="container clearfix">
-
 				<div id="shop" class="shop row grid-container gutter-30" data-layout="fitRows">
-				@foreach ($products as $product)
+					@foreach ($products as $product)
 						<div class="product col-lg-3 col-md-4 col-sm-6 col-12">
 							<div class="grid-inner">
 								<div class="product-image">
@@ -49,7 +48,6 @@
 						</div>
 						@endforeach
 					</div>
-
 			</div>
 		</div>
 	</section>

@@ -6,7 +6,7 @@
       <div class="page-title">
         <div class="row">
           <div class="col-6">
-            <h3>Edit Reviews Reply</h3>
+            <h3>Add Divisions</h3>
           </div>
           <div class="col-6">
             <ol class="breadcrumb">
@@ -23,24 +23,24 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="card">
-              {{-- <h4><a href="{{route('categories.index')}}" class="btn-primary pull-right" style="margin-right:5px">Category List</a></h4>
-           --}}
+            @include('_partials.toast')
             <div class="card-body">
-              <form action="{{route('reply.update',['reply'=>$reply->id])}}" method="POST" class="needs-validation" novalidate="">
+                <div class="row g-3">
+                 <div class="col-md-8">
+                <form action="{{route('divisions.update',['division' => $division->id])}}" method="POST" class="needs-validation" novalidate="">
                   @csrf
                   @method('PUT')
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label" for="validationCustom01">Reviews Reply</label>
-                    <textarea name="comment" class="form-control @error('comment') is-invalid @enderror" id="validationCustom01" cols="" rows="" required>{{$reply->comment}}</textarea>
-                    @error('comment')
+                  <h5 style="margin-top: 60px">Edit Division Name</h5>
+                    <label class="form-label" for="validationCustom01">Division name</label>
+                    <input class="form-control @error('division_name') is-invalid @enderror" name="division_name" value="{{$division->division_name ?? old('division_name')}}" id="validationCustom01" type="text" placeholder="Enter Division Name" required="">
+                    @error('division_name')
                         <div class="alert text-danger">{{$message}}</div>
                     @enderror
-                  </div>
+                    <br>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </form>
                 </div>
-                <br>
-                <button class="btn btn-primary" type="submit">Update</button>
-              </form>
+            </div>
             </div>
           </div>
         </div>
@@ -49,3 +49,4 @@
     <!-- Container-fluid Ends-->
   </div>
 @endsection
+

@@ -13,6 +13,22 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function status($id){
+        $comment = Comment::findOrFail($id);
+        if($comment){
+            if($comment->status == 0){
+                $comment->status = 1;
+            }else{
+                $comment->status = 0;
+            }
+            $comment->save();
+            Session()->flash('alert-success','Status Update Successfully');
+            return back();
+        }else{
+            return abort(404);
+        }
+
+    }
     public function index()
     {
         $comments = Comment::get();
@@ -48,6 +64,7 @@ class CommentController extends Controller
         $comments->name = $request->name;
         $comments->email = $request->email;
         $comments->description = $request->description;
+        $comments->product_id = $request->product_id;
         $comments->save();
         Session()->flash('message','Comment Addedd Successfully');
         return back();

@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Models\Category;
 use App\Models\Cart;
 use App\Models\Comment;
+use App\Models\Reply;
 use App\Models\SocialIcon;
 use App\Models\SubCategory;
 use App\Models\Review;
@@ -33,8 +34,8 @@ class WebsiteController extends Controller
             return view('frontend.single_shop', [
                 'product' => $product,
                 'pByCategory' => $pByCategory,
-                'reviews' => Review::orderBy('id','desc')->where('status',0)->get(),
-                'comments' => Comment::orderBy('id','desc')->get(),
+                'reviews' => Review::where('product_id',$product->id)->orderBy('id','desc')->where('status',1)->get(),
+                'comments' => Comment::where('product_id',$product->id)->where('status',1)->orderBy('id','desc')->get(),
             ]);
         } else {
             return abort(404);

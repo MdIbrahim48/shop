@@ -3,30 +3,22 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Reply;
-use App\Models\Comment;
+use App\Models\Division;
+use App\Models\District;
 use Illuminate\Http\Request;
 
-class ReplyController extends Controller
+class DistrictController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function replies($id){
-        $comment = Comment::where('id',$id)->first();
-        $reply = Reply::where('comment_id',$comment->id)->get();
-        return view('backend.reply.add_reply',[
-            'comment' =>$comment,
-            'reply' => $reply
-        ]);
-    }
     public function index()
     {
-        $replies = Reply::get();
-        return view('backend.reply.list_reply',[
-            'replies' => $replies
+        $districts = District::get();
+        return view('backend.district.list_district',[
+            'districts' => $districts
         ]);
     }
 
@@ -37,8 +29,10 @@ class ReplyController extends Controller
      */
     public function create()
     {
-       //$reply = Comment::findOrFail();
-       // return view('backend.reply.add_reply');
+        $divisions = Division::get();
+        return view('backend.district.add_district',[
+            'divisions' => $divisions
+        ]);
     }
 
     /**
@@ -50,14 +44,16 @@ class ReplyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'comment' => "required"
+            'district_name' => 'required|unique:districts',
+            'division_id' => 'required',
         ]);
-        $reply = new Reply;
-        $reply->comment = $request->comment;
-        $reply->comment_id = $request->comment_id;
-        $reply->save();
-        Session()->flash('alert-success','Reply Added Successfully');
-        return back();
+
+        $districts = new District;
+        $districts->district_name = $request->district_name;
+        $districts->division_id = $request->division_id;
+        $districts->save();
+        Session()->flash('alert-success','District Added Successfully');
+        return redirect()->route('districts.index');
     }
 
     /**
@@ -79,9 +75,11 @@ class ReplyController extends Controller
      */
     public function edit($id)
     {
-        $reply = Reply::findOrFail($id);
-        return view('backend.reply.edit_reply',[
-            'reply' => $reply
+        $district = District::findOrFail($id);
+        $divisions = Division::get();
+        return view('backend.district.edit_district',[
+            'district' => $district,
+            'divisions' => $divisions
         ]);
     }
 
@@ -94,12 +92,12 @@ class ReplyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $reply = Reply::findOrFail($id);
-        $reply->comment = $request->comment;
-        $reply->update();
-        Session()->flash('alert-success','Reply Update Successfully');
-        return back();
-
+        $districts = District::findOrFail($id);
+        $districts->district_name = $request->district_name;
+        $districts->division_id = $request->division_id;
+        $districts->update();
+        Session()->flash('alert-success','District Update Successfully');
+        return redirect()->route('districts.index');
     }
 
     /**
@@ -110,8 +108,9 @@ class ReplyController extends Controller
      */
     public function destroy($id)
     {
-        Reply::findOrFail($id)->delete();
-        Session()->flash('alert-success','Reply Delete Successfully');
+        District::findOrFail($id)->delete();
+        Session()->flash('alert-success','District Delete Successfully');
         return back();
+
     }
 }
