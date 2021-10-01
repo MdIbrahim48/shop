@@ -3,31 +3,22 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Reply;
-use App\Models\Comment;
+use App\Models\Division;
 use Illuminate\Http\Request;
 
-class ReplyController extends Controller
+class DivisionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function replies($id){
-        $comment = Comment::where('id',$id)->first();
-        $reply = Reply::where('comment_id',$comment->id)->get();
-        return view('backend.reply.add_reply',[
-            'comment' =>$comment,
-            'reply' => $reply
-        ]);
-    }
     public function index()
     {
-        $replies = Reply::get();
-        return view('backend.reply.list_reply',[
-            'replies' => $replies
-        ]);
+        // $divisions = Division::get();
+        // return view('backend.division.add_division',[
+        //     'divisions' => $divisions
+        // ]);
     }
 
     /**
@@ -37,8 +28,10 @@ class ReplyController extends Controller
      */
     public function create()
     {
-       //$reply = Comment::findOrFail();
-       // return view('backend.reply.add_reply');
+        $divisions = Division::get();
+        return view('backend.division.add_division',[
+            'divisions' => $divisions
+        ]);
     }
 
     /**
@@ -49,14 +42,14 @@ class ReplyController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'comment' => "required"
+         $request->validate([
+            'division_name' => 'required|unique:divisions'
         ]);
-        $reply = new Reply;
-        $reply->comment = $request->comment;
-        $reply->comment_id = $request->comment_id;
-        $reply->save();
-        Session()->flash('alert-success','Reply Added Successfully');
+
+        $divisions = new Division;
+        $divisions->division_name = $request->division_name;
+        $divisions->save();
+        Session()->flash('alert-success','Division Added Successfully');
         return back();
     }
 
@@ -79,9 +72,9 @@ class ReplyController extends Controller
      */
     public function edit($id)
     {
-        $reply = Reply::findOrFail($id);
-        return view('backend.reply.edit_reply',[
-            'reply' => $reply
+        $division = Division::findOrFail($id);
+        return view('backend.division.edit_division',[
+            'division' => $division
         ]);
     }
 
@@ -94,12 +87,11 @@ class ReplyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $reply = Reply::findOrFail($id);
-        $reply->comment = $request->comment;
-        $reply->update();
-        Session()->flash('alert-success','Reply Update Successfully');
-        return back();
-
+        $division = Division::findOrFail($id);
+        $division->division_name = $request->division_name;
+        $division->update();
+        Session()->flash('alert-success','Division Update Successfully');
+        return redirect()->route('divisions.create');
     }
 
     /**
@@ -110,8 +102,8 @@ class ReplyController extends Controller
      */
     public function destroy($id)
     {
-        Reply::findOrFail($id)->delete();
-        Session()->flash('alert-success','Reply Delete Successfully');
+        Division::findOrFail($id)->delete();
+        Session()->flash('alert-danger','Division Delete Successfully');
         return back();
     }
 }

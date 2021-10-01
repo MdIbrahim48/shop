@@ -309,6 +309,7 @@
 														<div class="modal-body">
 															<form class="row mb-0" id="template-reviewform" name="template-reviewform" action="{{route('reviews.store')}}" method="post">
 																@csrf
+																<input type="hidden" name="product_id" value="{{$product->id}}">
 																<div class="col-6 mb-3">
 																	<label for="template-reviewform-name">Name <small>*</small></label>
 																	<div class="input-group">
@@ -393,6 +394,10 @@
 															<div class="comment-content clearfix">
 																<div class="comment-author">{{$comment->name}} <br><span>{{$comment->email}}</span></span><span><a href="#" title="Permalink to this comment">{{$comment->created_at}}</a></span></div>
 																<p>{{$comment->description}}</p>
+																	@foreach ($comment->reply as $item)
+																		<p style="margin-left: 20px">{{$item->comment}}</p>
+																	@endforeach
+																
 																
 															</div>
 
@@ -417,6 +422,7 @@
 														<div class="modal-body">
 															<form class="row mb-0" id="template-reviewform" name="template-reviewform" action="{{route('comments.store')}}" method="post">
 																@csrf
+																<input type="hidden" name="product_id" value="{{$product->id}}">
 																<div class="w-100"></div>
 
 																<div class="col-12 mb-3">

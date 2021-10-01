@@ -19,6 +19,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function subcategory($category_id){
+    //     $subCategories = SubCategory::where('category_id',$category_id)->get();
+    //     return response()->json($subCategories);
+        // try{
+        //     $subCategories = SubCategory::where('category_id',$category_id)->get();
+        //     return response()->json($subCategories,Response::HTTP_OK);
+        //    }catch(\Exception $exception){
+        //         return response()->json($exception->getMessage(),Response::HTTP_INTERNAL_SERVER_ERROR);
+        //    }
+
+    // }
+
+ 
     public function status($id)
     {
         $brand = Brand::find($id);
@@ -51,10 +64,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $subCategories = SubCategory::all();
+        $categories = Category::get();
+        $subCategories = SubCategory::get();
         $brands = Brand::all();
-        return view('backend.product.add_product', [
+        return view('backend.product.add_product',[
             'categories' => $categories,
             'subCategories' => $subCategories,
             'brands' => $brands,

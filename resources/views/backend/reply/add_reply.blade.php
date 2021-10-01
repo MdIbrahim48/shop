@@ -25,43 +25,47 @@
           <div class="card">
               {{-- <h4><a href="{{route('categories.index')}}" class="btn-primary pull-right" style="margin-right:5px">Category List</a></h4>
            --}}
+                <span>Name : {{$comment->name}}</span>
+                <span>Email : {{$comment->email}}</span>
+                <span>Comment : {{$comment->description}}</span>
            <table class="table" id="example">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Comment</th>
+                <th scope="col">Reply</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
+              @foreach ($reply as $item)
                 <tr>
-                <td>{{$comment->name}}</td>
-                <td>{{$comment->email}}</td>
-                <td>{{$comment->description}}</td>
-                </tr>
+                  <td>{{$item->comment}}</td>
+                  <td style="display: inline-flex">
+                      <form action="{{route('reply.destroy',['reply' => $item->id])}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Are You Delete?')" class=""><i class="fas fa-trash text-danger"></i></button>
+                      </form>
+                      <a href="{{route('reply.edit',['reply'=>$item->id])}}" style="margin-left:3px" class="btn-sm pt-2 btn-primary"><i class="fas fa-edit"></i></a>
+                  </td>
+                  </tr>
+                  @endforeach
             </tbody>
         </table>
-            <div class="card-body">
-              <form action="{{route('reply.store')}}" method="POST" class="needs-validation" novalidate="">
-                  @csrf
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <select name="comment_id" id="" style="display: none">
-                      <option value="{{$comment->id}}"></option>
-                    </select>
-                    <label class="form-label" for="validationCustom01">Comments Reply</label>
-                    <textarea name="comment" class="form-control @error('comment') is-invalid @enderror" id="validationCustom01" cols="" rows="" required></textarea>
-                    @error('comment')
-                        <div class="alert text-danger">{{$message}}</div>
-                    @enderror
-                  </div>
-                </div>
-                <br>
-                <button class="btn btn-primary" type="submit">Save</button>
-              </form>
-            </div>
+        <div class=""><h4>Reply</h4></div>
+        <form action="{{route('reply.store')}}" method="POST" class="needs-validation" novalidate="">
+          @csrf
+        <div class="row g-3">
+          <div class="col-md-6">
+            <input type="hidden" name="comment_id" value="{{$comment->id}}">
+            <textarea name="comment" class="form-control @error('comment') is-invalid @enderror" id="validationCustom01" cols="" rows="" required></textarea>
+            @error('comment')
+                <div class="alert text-danger">{{$message}}</div>
+            @enderror
+          </div>
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">Save</button>
+      </form>
           </div>
         </div>
       </div>

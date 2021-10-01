@@ -51,13 +51,6 @@
                         <div class="alert text-danger">{{$message}}</div>
                     @enderror
                   </div>
-                  {{-- <div class="col-md-6">
-                    <label class="form-label" for="status">Status</label>
-                    <input class="form-control @error('status') is-invalid @enderror" name="status" value="{{old('status')}}" id="status" type="number" required="">
-                    @error('status')
-                        <div class="alert text-danger">{{$message}}</div>
-                    @enderror
-                  </div> --}}
                   <div class="col-md-6">
                     <label class="form-label" for="category_id">Category Name</label>
                     <select name="category_id" id="" class="form-control @error('category_id') is-invalid @enderror" value="{{$subCategory->category_id ?? old('category_id')}}">

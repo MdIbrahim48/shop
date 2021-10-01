@@ -5,6 +5,8 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CommentController;
+use App\Http\Controllers\Backend\DistrictController;
+use App\Http\Controllers\Backend\DivisionController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SocialIconController;
@@ -38,7 +40,7 @@ Route::resource('/login', LoginController::class)->only(['index', 'store']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'customer', 'middleware' => ['auth' => 'customer']], function () {
-    
+
 });
 Route::group(['prefix' => 'backend', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
@@ -57,6 +59,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth']], function () {
 
     // Products
     Route::resource('products', ProductController::class);
+    //Route::get('get-subcategory/{category_id}',[ProductController::class,'subcategory']);
 
     // Setting
     Route::resource('settings', SettingController::class);
@@ -71,11 +74,20 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth']], function () {
 
     // replies
     Route::resource('reply', ReplyController::class);
-    Route::get('replies/{id}', [ReplyController::class, 'replies'])->name('replies');
+    Route::get('replies/{id}',[ReplyController::class, 'replies'])->name('replies');
     // comments
     Route::resource('comments', CommentController::class);
-});
+    Route::get('comment-status/{id}',[CommentController::class,'status'])->name('comment.status');
 
+    // Division
+    Route::resource('divisions',DivisionController::class);
+    Route::resource('districts',DistrictController::class);
+
+
+});
+Route::group(['prefix' => 'customer', 'middleware' => ['customer']], function () {
+
+});
 // frontend
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
 Route::get('/single-shop/{slug}', [WebsiteController::class, 'singleShop'])->name('single.shop');
@@ -89,6 +101,10 @@ Route::get('/single-cart/{id}', [SingleCartController::class, 'singleCart'])->na
 Route::get('/add-cart', [AddToCartController::class, 'addToCart'])->name('add.cart');
 // show cart
 Route::get('/show-cart', [AddToCartController::class, 'showCart'])->name('show.cart');
+
+// update to cart
+//Route::post('/update-to-cart', [AddToCartController::class, 'updatetocart'])->name('updatetocart');
+
 
 //  customer login
 Route::resource('customer', CustomerLoginController::class);

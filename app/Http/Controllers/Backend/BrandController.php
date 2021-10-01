@@ -53,9 +53,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('backend.brand.add_brand', [
-            ''
-        ]);
+        return view('backend.brand.add_brand');
     }
 
     /**

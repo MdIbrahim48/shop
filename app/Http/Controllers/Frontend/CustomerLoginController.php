@@ -23,16 +23,46 @@ class CustomerLoginController extends Controller
             'email' => 'email',
             'password' => 'min:5',
         ]);
+        $request->validate([
+            'email' => 'email',
+            'password' => 'min:5',
+        ]);
 
         $credentials = $request->only('email', 'password');
         // dd($credentials);
         // if (Auth::attempt($credentials)) {
         if (Auth::guard('customer')->attempt($credentials)) {
-            dd('login');
+            return redirect()->route('home');
+            // dd('you are login');
         }
 
         Session()->flash('alert-danger', "Email and Password doesn't match");
         return back();
+
+        // $user = CustomerRegistration::where('email', $request->email)->first();
+        // if (isset($user)) {
+        //     if ($user->verify_status == 1) {
+        //         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
+        //             return redirect()->route('home');
+        //         } else {
+        //             $this->message = 'Invalid password';
+        //         }
+        //     } else {
+        //         $this->message = 'Unverifyed user';
+        //     }
+        // } else {
+        //     $this->message = 'User not found !';
+        // }
+
+        // $credentials = $request->only('email', 'password');
+        // dd($credentials);
+        // if (Auth::attempt($credentials)) {
+        // if (Auth::guard('customer')->attempt($credentials)) {
+        //     dd('login');
+        // }
+
+        // Session()->flash('alert-danger', "Email and Password doesn't match");
+        // return back();
         //    // $user = $request->only(['email','password']);
         //     $user = CustomerRegistration::where('email', '=',$request->email)->first();
         //     $password =  Hash::check($request->password, $user->password);

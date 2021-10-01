@@ -29,6 +29,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Comment</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
@@ -39,15 +40,15 @@
                     <td>{{$comment->name}}</td>
                     <td>{{$comment->email}}</td>
                     <td>{{$comment->description}}</td>
-                    <td style="display: inline-flex">
-                        <form action="{{route('comments.destroy',['comment'=>$comment->id])}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger " onclick="return confirm('Are You Delete?')">
-                            <i class="fas fa-trash text-danger"></i></button>
-                        </form>
-                        <a href="{{route('comments.edit',['comment'=>$comment->id])}}" style="margin-left:3px" class="btn-sm pt-2 btn-primary"><i class="fas fa-edit"></i></a>
-                        <a href="{{route('replies',$comment->id)}}" style="margin-left:3px" class="btn-sm pt-2 btn-primary"><i class="fas fa-comment-dots"></i></a>
+                    <td>
+                        @if ($comment->status == 0)
+                        <a href="{{route('comment.status', $comment->id)}}" class="btn btn-info">Approved</a>
+                        @else
+                        <a href="{{route('comment.status', $comment->id)}}" class="btn btn-warning">Pending</a> 
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{route('replies',$comment->id)}}" style="margin-left:3px" class="btn-sm pt-2 btn-primary"><i class="fas fa-reply"></i></a>
                     </td>
                     </tr>
                     @endforeach
