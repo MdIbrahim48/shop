@@ -3,9 +3,12 @@
        <script src="{{asset('frontend/js/jquery.js')}}"></script>
 	<script src="{{asset('frontend/js/plugins.min.js')}}"></script>
 
+	<script src="{{asset('frontend/js/custom.js')}}"></script>
+       
 	<!-- Footer Scripts
 	============================================= -->
 	<script src="{{asset('frontend/js/functions.js')}}"></script>
+	<script src="{{asset('frontend/js/custom.js')}}"></script>
  {{-- toaster js --}}
  {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>

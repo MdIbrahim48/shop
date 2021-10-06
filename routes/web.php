@@ -13,11 +13,13 @@ use App\Http\Controllers\Backend\SocialIconController;
 use App\Http\Controllers\Backend\SubsCriptionController;
 use App\Http\Controllers\Backend\NotificationController;
 use App\Http\Controllers\Backend\ReplyController;
+use App\Http\Controllers\Backend\OrdersController;
 use App\Http\Controllers\Backend\ReviewController as BackendReviews;
 
 use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\Frontend\AddToCartController;
 use App\Http\Controllers\Frontend\CustomerLoginController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\SingleCartController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +36,7 @@ use Illuminate\Support\Facades\Route;
 */
 // Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 
 Route::resource('/login', LoginController::class)->only(['index', 'store']);
@@ -81,7 +84,10 @@ Route::group(['prefix' => 'backend', 'middleware' => ['auth']], function () {
 
     // Division
     Route::resource('divisions',DivisionController::class);
+    // districts
     Route::resource('districts',DistrictController::class);
+    // orders
+    Route::get('orders',[OrdersController::class,'orders'])->name('orders');
 
 
 });
@@ -96,14 +102,24 @@ Route::get('/category/{slug}', [WebsiteController::class, 'category'])->name('ca
 //  category item
 Route::get('/category-item/{slug}', [WebsiteController::class, 'subCategoryItem'])->name('category.item');
 //  single Cart
-Route::get('/single-cart/{id}', [SingleCartController::class, 'singleCart'])->name('single.cart');
+// Route::get('/single-cart/{id}', [SingleCartController::class, 'singleCart'])->name('single.cart');
+Route::get('/single-cart/{id}', [AddToCartController::class, 'singleCart'])->name('single.cart');
 //  add To Cart
 Route::get('/add-cart', [AddToCartController::class, 'addToCart'])->name('add.cart');
 // show cart
 Route::get('/show-cart', [AddToCartController::class, 'showCart'])->name('show.cart');
+Route::get('/cart/incriment/{id}', [AddToCartController::class, 'incrimentItem'])->name('cart.incriment');
+Route::get('/cart/decriment/{id}', [AddToCartController::class, 'decrimentItem'])->name('cart.decrimentItem');
 
-// update to cart
-//Route::post('/update-to-cart', [AddToCartController::class, 'updatetocart'])->name('updatetocart');
+
+// checkout
+Route::get('/cart/checkout', [AddToCartController::class, 'checkout'])->name('checkout');
+
+// order
+Route::post('/order', [OrderController::class, 'order'])->name('order');
+
+// get-district
+Route::get('/get-district/{divisions_id}', [AddToCartController::class, 'getDistrict'])->name('getDistrict');
 
 
 //  customer login

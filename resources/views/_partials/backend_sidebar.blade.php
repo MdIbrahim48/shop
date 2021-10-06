@@ -98,6 +98,12 @@
                 <li><a href="{{route('districts.index')}}">Districts List</a></li>
                 <li><a href="{{route('districts.create')}}">Add Districts</a></li>
               </ul>
+            </li>
+            <li class="sidebar-list">
+              <label class="badge badge-danger">New</label><a class="sidebar-link sidebar-title" href="#"><i data-feather="box"></i><span>Customer Order</span></a>
+              <ul class="sidebar-submenu">
+                <li><a href="{{route('orders')}}">Order List</a></li>
+              </ul>
               <br><br>
             </li>
           </ul>

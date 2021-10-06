@@ -2,7 +2,7 @@
 @section('page_title')
     <section id="page-title">
         <div class="container clearfix">
-            <h1>Shop</h1>
+            <h1 id="shop">Shop</h1>
             <span>Start Buying your Favourite Theme</span>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -36,66 +36,55 @@
                                 <td class="cart-product-name">
                                     <a href="#">{{$item->name}}</a>
                                 </td>
-
+                                <input type="hidden" id="productId" name="productId" value="{{$item->product_id}}">
                                 <td class="cart-product-price">
-                                    <span id="price" class="amount">{{$item->price}}</span>
+                                    <span class="amount">{{$item->price}}</span>
+                                    <input type="hidden" value="{{$item->price}}" id="price{{$loop->index}}">
                                 </td>
-                                <td class="cart-product-quantity">
-                                    <div class="quantity">
-                                        <input type="button" value="-" class="minus">
-                                        <input type="text" name="quantity" value="1"class="qty" />
-                                        <input type="button" value="+" class="plus">
+                                <td class="cart-product-quantity" width="130px">
+                                    <div class="input-group quantity">
+                                        <div class="input-group-prepend">
+                                            <a href="{{route('cart.decrimentItem', $item->rowId)}}" class="input-group-text">-</a>
+                                        </div>
+                                        <span type="text" class="qty-input form-control"> {{$item->qty}} </span>
+                                        <div class="input-group-append">
+                                            <a href="{{route('cart.incriment', $item->rowId)}}" class="input-group-text">+</a>
+                                        </div>
                                     </div>
                                 </td>
-
-                                {{-- <td class="cart-product-quantity">
-                                    <input type="hidden" class="product_id" value="{{$item['item_id']}}" >
-                                    <div class="quantity">
-                                        <input type="button" value="-" class="minus changeQuantity">
-                                        <input type="text" name="quantity" value="1"class="qty" />
-                                        <input type="button" value="+" class="plus changeQuantity">
-                                    </div>
-                                </td> --}}
-                                
+                                <td class="cart-product-price">
+                            <span id="price" class="amount">{{$item->price*$item->qty}}</span>
+                                </td>
+                                <td>
                             </tr> 
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td class="cart-product-price">
-                                <span id="price" class="amount">{{Cart::subtotal()}}</span>
-                            </td>
-                        </tr>
-                    </tfoot>
-
                 </table>
 
                 <div class="row col-mb-30">
                     <div class="col-lg-6">
-                        <h4>Calculate Shipping</h4>
                         <form class="row">
                             <div class="col-12 form-group">
-                                <select class="sm-form-control">
-                                    <option value="AX">&#197;land Islands</option>
-                                    <option value="AF">Afghanistan</option>
-                                    <option value="AL">Albania</option>
-                                    <option value="DZ">Algeria</option>
-                                    <option value="AD">Andorra</option>
-                                    <option value="AO">Angola</option>
-                                    <option value="AI">Anguilla</option>
-                                    <option value="AQ">Antarctica</option>
-                                    <option value="AG">Antigua and Barbuda</option>
+                                <h5>Division Name</h5>
+                                <select class="sm-form-control" id="divisions" name="divisions">
+                                    <option value>Select One</option>
+                                    @foreach ($divisions as $division)
+                                        <option value="{{$division->id}}">{{$division->division_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
+                            <h5>District Name</h5>
                             <div class="col-6 form-group">
-                                <input type="text" class="sm-form-control" placeholder="State / Country" />
+                                <select class="sm-form-control" id="district_id" name="district_id">
+                                    
+                                </select>
                             </div>
 
                             <div class="col-6 form-group">
                                 <input type="text" class="sm-form-control" placeholder="PostCode / Zip" />
                             </div>
                             <div class="col-12 form-group">
-                                <button class="button button-3d m-0 button-black">Update Totals</button>
+                                <a href="{{route('customer.index')}}" class="button button-3d m-0 button-black">Checkout</a>
                             </div>
                         </form>
                     </div>
@@ -129,7 +118,7 @@
                                         </td>
 
                                         <td class="cart-product-name">
-                                            <span class="amount color lead"><strong>{{Cart::instance('addtoCart')->subtotal()}}</strong></span>
+                                            <span id="totalAmount" class="amount color lead"><strong>{{Cart::instance('addtoCart')->subtotal()}}</strong></span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -146,66 +135,56 @@
 
 
 <script>
-     // Update Cart Data
-    //  $(document).ready(function () {
-    //     $('.changeQuantity').click(function (e) {
-    //         e.preventDefault();
 
-    //         var quantity = $(this).closest(".cartpage").find('.qty').val();
-    //         var product_id = $(this).closest(".cartpage").find('.product_id').val();
 
-    //         var data = {
-    //             '_token': $('input[name=_token]').val(),
-    //             'quantity':quantity,
-    //             'product_id':product_id,
-    //         };
+    function plus(id){
+        var qty =   document.getElementById('qty'+id).value;
+        var price = document.getElementById('price'+id).value;
+        var total = Number(price)*Number(qty);
+        document.getElementById('amount'+id).innerHTML=total;
+       
+    }
 
-    //         $.ajax({
-    //             url: '/update-to-cart',
-    //             type: 'POST',
-    //             data: data,
-    //             success: function (response) {
-    //                 window.location.reload();
-    //                 alertify.set('notifier','position','top-right');
-    //                 alertify.success(response.status);
-    //             }
-    //         });
-    //     });
+    function minus(id){
+        var qty = document.getElementById('qty'+id).value;
+        var price = document.getElementById('price'+id).value;
+        var total = Number(price)*Number(qty);
+        document.getElementById('amount'+id).innerHTML=total;
+       
+    }
+    
+    var totalAmount = 
+    document.getElementById(totalAmount).innerHTML = totalAmount;
 
-    // });
+
 
 </script>
-
-
-
-
-
-      
-    {{-- <div class="mr-2 s_qtty_area d-flex">
-        <div onclick="decrement()" class="btn border_redious0"><i class="fa fa-minus font-size-15"></i></div>
-        <div id="output-area" desabled class="btn border_redious0 btn-desabled font-size-15"></div>
-        <input type="hidden" name="qtty" value="1" id="input-qtty">
-        <div class="btn border_redious0" onclick="increment()"><i class="fa fa-plus font-size-15"></i></div>
-    </div> --}}
-
-    {{-- <script>
-        var x = 1;
-        document.getElementById('output-area').innerHTML = x;
-
-        function increment() {
-            var a = ++x;
-            document.getElementById('output-area').innerHTML = a;
-            document.getElementById('input-qtty').value = a;
-            document.getElementById('input-buynowqtty').value = a;
-        }
-
-        function decrement() {
-            if (x > 1) {
-            var a = --x;
-            document.getElementById('output-area').innerHTML = a;
-            document.getElementById('input-qtty').value = a;
-            document.getElementById('input-buynowqtty').value = a;
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#divisions').change(function(){
+            let divisions_id  = $(this).val();
+            if(divisions_id){
+                $.ajax({
+                    type:"GET",
+                    url:"{{url('get-district')}}/"+divisions_id,
+                    success:function(response){
+                        if(response){
+                            $('#district_id').empty();
+                            $('#district_id').append("<option value>Select One</option>");
+                            $.each(response,function(key, value){
+                                $('#district_id').append("<option value='"+value.id+"'>"+value.district_name+"</option>")
+                            })
+                        }else{
+                            $('#district_id').empty();
+                        }
+                    }
+                })
+            }else{
+                $('#district_id').empty();
             }
-        }
-    </script> --}}
+        })
+    })
+</script>
+
 @endsection
