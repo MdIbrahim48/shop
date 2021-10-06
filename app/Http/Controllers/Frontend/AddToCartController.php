@@ -5,60 +5,79 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Division;
+use App\Models\District;
 use Illuminate\Support\Facades\Session;
 use Cart;
 use Illuminate\Support\Facades\Cookie;
 
 class AddToCartController extends Controller
 {
+
+    function getDistrict($divisions_id)
+    {
+        $district = District::where('division_id', $divisions_id)->get();
+        return response()->json($district);
+    }
     /**
      * Display a listing of the resource.
      
      * @return \Illuminate\Http\Response
      */
+    public function singleCart($id)
+    {
+        $singleCart = Product::find($id);
+        Cart::instance('addtoCart')->add($singleCart->product_id, $singleCart->name, 1, $singleCart->price)->associate('App\Models\Product');
+        return back();
+    }
+
+
     public function addToCart(Request $request)
     {
-        
+
         $singleCart = Product::find($request->product_id);
         Cart::instance('addtoCart')->add($singleCart->product_id, $singleCart->name, $request->quantity, $singleCart->price)->associate('App\Models\Product');
         return back();
     }
 
-    public function showCart(){
-        return view('frontend.cart');
+    public function showCart()
+    {
+        $divisions = Division::get();
+        return view('frontend.cart', [
+            'divisions' => $divisions
+        ]);
     }
 
 
-    // public function updatetocart(Request $request)
-    // {
-    //     $prod_id = $request->input('product_id');
-    //     $quantity = $request->input('quantity');
+    function updatetocart(Request $request)
+    {
+        Cart::instance('addtoCart')->update($request->rowId, $request->qty);
+        return back();
+    }
 
-    //     if(Cookie::get('shopping_cart'))
-    //     {
-    //         $cookie_data = stripslashes(Cookie::get('shopping_cart'));
-    //         $cart_data = json_decode($cookie_data, true);
 
-    //         $item_id_list = array_column($cart_data, 'item_id');
-    //         $prod_id_is_there = $prod_id;
+    public function incrimentItem($rowId)
+    {
+        $productItem =  Cart::instance('addtoCart')->get($rowId);
+        $quantity = $productItem->qty + 1;
+        // dd($quantity);
+        Cart::instance('addtoCart')->update($rowId, $quantity);
+        return back();
+    }
 
-    //         if(in_array($prod_id_is_there, $item_id_list))
-    //         {
-    //             foreach($cart_data as $keys => $values)
-    //             {
-    //                 if($cart_data[$keys]["item_id"] == $prod_id)
-    //                 {
-    //                     $cart_data[$keys]["item_quantity"] =  $quantity;
-    //                     $item_data = json_encode($cart_data);
-    //                     $minutes = 60;
-    //                     Cookie::queue(Cookie::make('shopping_cart', $item_data, $minutes));
-    //                     return response()->json(['status'=>'"'.$cart_data[$keys]["item_name"].'" Quantity Updated']);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    public function decrimentItem($rowId)
+    {
+        $productItem =  Cart::instance('addtoCart')->get($rowId);
+        $quantity = $productItem->qty - 1;
+        // dd($quantity);
+        Cart::instance('addtoCart')->update($rowId, $quantity);
+        return back();
+    }
 
+
+    public function checkout(){
+        return view('frontend.checkout');
+    }
 
     /**
      * Show the form for creating a new resource.
